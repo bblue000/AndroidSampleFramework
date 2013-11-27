@@ -12,8 +12,7 @@ import android.view.ViewGroup;
  * @param <D>
  * @param <H>
  */
-public abstract class AbsResLayoutAdapter<D, H> extends AbsDataAdapter<D, H>
-implements AdapterChangeable<D>{
+public abstract class AbsResLayoutAdapter<D, H> extends AbsDataAdapter<D, H>{
 
 	private final int mLayoutId;
 	/**
