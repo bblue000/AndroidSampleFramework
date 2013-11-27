@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.ixming.android.utils.FrameworkLog;
 import org.ixming.framework.annotation.TemporarilyDone;
-import org.ixming.utils.NumberUtil;
+import org.ixming.utils.NumberUtils;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -166,7 +166,7 @@ public class DBManager<T extends BaseSQLiteModel> {
 		}
 		if (null == mSQLiteModelInfo.getPKInfo()) return true;
 		SQLiteColumnInfo pkInfo = mSQLiteModelInfo.getPKInfo();
-		pkInfo.setValueToField(t, NumberUtil.getLong(pathSet.get(1)));
+		pkInfo.setValueToField(t, NumberUtils.getLong(pathSet.get(1)));
 		return true;
 	}
 	

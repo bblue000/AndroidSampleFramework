@@ -284,4 +284,14 @@ implements AdapterChangeable<D>{
 		}
 		return this;
 	}
+	
+	public AbsDataAdapter<D, H> update(int position, D t) {
+		if (position > -1 && position < getCount()) {
+			final int oldCount = getCount();
+			mContentList.set(position, t);
+			final int newCount = getCount();
+			postDataSetChanged(oldCount, newCount);
+		}
+		return this;
+	}
 }

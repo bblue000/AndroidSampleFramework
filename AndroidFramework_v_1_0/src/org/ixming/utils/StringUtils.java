@@ -5,12 +5,12 @@ package org.ixming.utils;
  * @author Yin Yong
  * @version 1.0
  */
-public class StringUtil {
+public class StringUtils {
 
 	/**
 	 * no instance needed
 	 */
-	private StringUtil() { /*no instance*/ }
+	private StringUtils() { /*no instance*/ }
 	
 	/**
 	 * null-value String

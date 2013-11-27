@@ -8,12 +8,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.ixming.utils.NumberUtil;
-import org.ixming.utils.StringUtil;
+import org.ixming.utils.NumberUtils;
+import org.ixming.utils.StringUtils;
 
-public class FileUtil {
+public class FileUtils {
 
-	private FileUtil() { /* no instance */ }
+	private FileUtils() { /* no instance */ }
 	
 	/**
 	 * 删除指定的文件
@@ -48,7 +48,7 @@ public class FileUtil {
 	 * @return 如果最终指定的文件不再存在，则返回TRUE
 	 */
 	public static boolean deleteFile(String filePath, boolean deleteRoot) {
-		if (StringUtil.isEmpty(filePath)) {
+		if (StringUtils.isEmpty(filePath)) {
 			return true;
 		}
 		return deleteFile(new File(filePath), deleteRoot);
@@ -92,7 +92,7 @@ public class FileUtil {
 		if (0D >= bytes) {
 			bytes = 0D;
 		}
-		return NumberUtil.formatByUnit(bytes, 1024D, 900D, 2, "B", "KB", "M", "G", "T");
+		return NumberUtils.formatByUnit(bytes, 1024D, 900D, 2, "B", "KB", "M", "G", "T");
 	}
 	
 	

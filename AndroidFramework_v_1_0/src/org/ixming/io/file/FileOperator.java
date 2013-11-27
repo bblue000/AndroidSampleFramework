@@ -23,7 +23,7 @@ public class FileOperator {
 	}
 	
 	public long getSize() {
-		return FileUtil.caculateFileSize(mFile);
+		return FileUtils.caculateFileSize(mFile);
 	}
 	
 	/**
@@ -32,7 +32,7 @@ public class FileOperator {
 	 * @return true if the specific file no longer exits, otherwise false
 	 */
 	public boolean delete(boolean deleteRoot) {
-		return FileUtil.deleteFile(mFile, deleteRoot);
+		return FileUtils.deleteFile(mFile, deleteRoot);
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class FileOperator {
 	 * false if fail
 	 */
 	public boolean copyTo(File destFile) {
-		return FileUtil.copyToFile(mFile, destFile);
+		return FileUtils.copyToFile(mFile, destFile);
 	}
 	
 	/**
@@ -48,6 +48,6 @@ public class FileOperator {
 	 * false if fail
 	 */
 	public boolean cutToFile(File destFile) {
-		return FileUtil.cutToFile(mFile, destFile);
+		return FileUtils.cutToFile(mFile, destFile);
 	}
 }

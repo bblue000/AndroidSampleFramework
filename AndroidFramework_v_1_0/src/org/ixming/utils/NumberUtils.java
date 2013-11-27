@@ -5,12 +5,12 @@ package org.ixming.utils;
  * @author Yin Yong
  * @version 1.0
  */
-public class NumberUtil {
+public class NumberUtils {
 
 	/**
 	 * no instance needed
 	 */
-	private NumberUtil() { /*no instance*/ }
+	private NumberUtils() { /*no instance*/ }
 	
 	public static final byte BYTE_ZERO = (byte) 0;
 	public static final short SHORT_ZERO = (short) 0;

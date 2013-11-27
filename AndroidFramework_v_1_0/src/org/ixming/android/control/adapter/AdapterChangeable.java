@@ -57,4 +57,11 @@ interface AdapterChangeable<T> {
 	 * @param m new data Map to append
 	 */
 	AdapterChangeable<T> prependDataMap(Map<?, T> m);
+	
+	
+	/**
+	 * update the specific position item
+	 * @param m new data Map to append
+	 */
+	AdapterChangeable<T> update(int position, T t);
 }
