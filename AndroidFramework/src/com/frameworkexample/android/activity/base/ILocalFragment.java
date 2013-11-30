@@ -2,6 +2,7 @@ package com.frameworkexample.android.activity.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
@@ -90,4 +91,11 @@ interface ILocalFragment extends View.OnClickListener {
 	 * return the application context
 	 */
 	Context getApplicationContext();
+	
+	/**
+	 * 创建一个本Activity的Handler对象，此方法在onCreate()中调用，且
+	 * 在initView及initData之前。
+	 * @added 1.0
+	 */
+	Handler provideActivityHandler();
 }

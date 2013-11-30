@@ -26,7 +26,7 @@ implements ILocalActivity {
 		
 		context = this;
 		appContext = getApplicationContext();
-		handler = createActivityHandler();
+		handler = provideActivityHandler();
 		
 		mRootView = LayoutInflater.from(this).inflate(getLayoutResId(), null);
 		setContentView(mRootView);

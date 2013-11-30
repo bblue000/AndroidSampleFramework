@@ -61,7 +61,7 @@ public class MainTabActivity extends BaseFragmentTabActivity {
 	}
 
 	@Override
-	public Handler createActivityHandler() {
+	public Handler provideActivityHandler() {
 		return null;
 	}
 

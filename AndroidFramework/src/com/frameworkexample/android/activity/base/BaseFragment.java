@@ -89,7 +89,7 @@ implements ILocalFragment{
 		super.onActivityCreated(savedInstanceState);
 		context = getActivity();
 		appContext = getActivity().getApplicationContext();
-		handler = createActivityHandler();
+		handler = provideActivityHandler();
 		fragmentActivity = getActivity();
 		
 		prepareInitView(mRootView);
@@ -156,7 +156,6 @@ implements ILocalFragment{
 		ensureRootViewCreated();
 		return mRootView;
 	}
-	protected abstract Handler createActivityHandler();
 	
 	protected final void ensureRootViewCreated() {
 		if (!mIsRootViewCreated) {

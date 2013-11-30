@@ -32,7 +32,7 @@ public class Fragment3 extends BaseFragment {
 	}
 
 	@Override
-	protected Handler createActivityHandler() {
+	public Handler provideActivityHandler() {
 
 		return null;
 	}

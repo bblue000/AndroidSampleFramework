@@ -77,7 +77,7 @@ interface ILocalActivity extends View.OnClickListener {
 	 * 在initView及initData之前。
 	 * @added 1.0
 	 */
-	Handler createActivityHandler();
+	Handler provideActivityHandler();
 	
 	/**
 	 * 这是一个规范返回事件，并建议使用此方法，针对性地使用跳转Activity的动画

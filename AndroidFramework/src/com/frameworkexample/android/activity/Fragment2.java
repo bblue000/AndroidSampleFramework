@@ -28,7 +28,7 @@ public class Fragment2 extends BaseFragment {
 	}
 
 	@Override
-	protected Handler createActivityHandler() {
+	public Handler provideActivityHandler() {
 
 		return null;
 	}
