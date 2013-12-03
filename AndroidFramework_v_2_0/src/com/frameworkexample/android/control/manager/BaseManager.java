@@ -1,6 +1,6 @@
 package com.frameworkexample.android.control.manager;
 
-import org.ixming.android.utils.ToastUtil;
+import org.ixming.android.utils.ToastUtils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,7 +39,7 @@ public abstract class BaseManager {
 		if (TextUtils.isEmpty(arg)) {
 			return;
 		}
-		ToastUtil.showToast(appContext, handler, arg);
+		ToastUtils.showToast(appContext, handler, arg);
 	}
 
 	public void toastShow(final int resId) {

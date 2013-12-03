@@ -1,4 +1,4 @@
-package org.ixming.android.sqlite;
+package org.ixming.android.sqlite.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.ixming.android.sqlite.BaseSQLiteModel;
+import org.ixming.android.sqlite.SQLiteCondition;
+import org.ixming.android.sqlite.SQLiteConditionDefiner;
+import org.ixming.android.sqlite.UpdateContentValues;
 import org.ixming.android.utils.FrameworkLog;
 import org.ixming.framework.annotation.TemporarilyDone;
 import org.ixming.utils.NumberUtils;
@@ -19,6 +23,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+/**
+ * 这是一个基于ContentProvider的数据库管理类。
+ * @author Yin Yong
+ * @version 1.0
+ */
 public class DBManager<T extends BaseSQLiteModel> {
 	final String TAG = DBManager.class.getSimpleName();
 	
@@ -28,7 +37,7 @@ public class DBManager<T extends BaseSQLiteModel> {
 	}
 	
 	/**
-	 * 获取表创建语句
+	 * 根据提供的clz对象，使用反射查找Table和Column信息，然后运行时自动组合成Sql语句。
 	 */
 	public static <T extends BaseSQLiteModel>String getTableCreation(Class<T> clz) {
 		return SQLiteModelInfo.parseModel(clz).toSql();
@@ -107,8 +116,12 @@ public class DBManager<T extends BaseSQLiteModel> {
 		}
 	}
 	
+	private boolean hasPrimaryKey() {
+		return null == mSQLiteModelInfo.getPKInfo();
+	}
+	
 	private void checkHasPK() {
-		if (null == mSQLiteModelInfo.getPKInfo()) {
+		if (hasPrimaryKey()) {
 			throw new UnsupportedOperationException("checkHasPK there's no PK of clz: " + mClass);
 		}
 	}
@@ -159,35 +172,60 @@ public class DBManager<T extends BaseSQLiteModel> {
 	// insert
 	private boolean setNewInsertId(Uri resultUri, T t) {
 		if (null == resultUri || null == t) return false;
+		
 		List<String> pathSet = resultUri.getPathSegments();
 		if (null == pathSet || pathSet.size() < 2) {
 			FrameworkLog.w(TAG, "setNewInsertId uri path is null or incorrect");
 			return false;
 		}
-		if (null == mSQLiteModelInfo.getPKInfo()) return true;
+		
+		//if (null == mSQLiteModelInfo.getPKInfo()) return true;
+		
 		SQLiteColumnInfo pkInfo = mSQLiteModelInfo.getPKInfo();
 		pkInfo.setValueToField(t, NumberUtils.getLong(pathSet.get(1)));
 		return true;
 	}
 	
+	/**
+	 * @see {@link #insertData(T, boolean)}
+	 */
 	public final boolean insertData(T t) {
 		return insertData(t, false);
 	}
 	
+	/**
+	 * @see {@link #insertData(Collection, boolean)}
+	 */
 	public final boolean insertData(Collection<T> list) {
 		return insertData(list, false);
 	}
 	
+	/**
+	 * @see {@link #insertData(Map, boolean)}
+	 */
 	public final boolean insertData(Map<?, T> map) {
 		return insertData(map, false);
 	}
 	
+	/**
+	 * 插入单条记录。
+	 * @param t 记录
+	 * @param deleteBeforeInsert 是否在插入之前清空表
+	 * @return 返回TRUE表示插入成功，并赋予主键值（如果含有主键）——如果没有主键，则根据返回的Uri的特性是否属于插入成功。
+	 */
 	public final boolean insertData(T t, boolean deleteBeforeInsert) {
 		if (deleteBeforeInsert) deleteAll(); // delete all 
 		if (null == t) return false;
+		
 		return setNewInsertId(mContentResolver.insert(mTableBaseUri, createFromBean(t)), t);
 	}
 	
+	/**
+	 * 插入多条记录。
+	 * @param list 记录集合
+	 * @param deleteBeforeInsert 是否在插入之前清空表
+	 * @return 返回TRUE表示插入成功，并赋予主键值（如果含有主键）——如果没有主键，则根据返回的Uri的特性是否属于插入成功。
+	 */
 	public final boolean insertData(Collection<T> list, boolean deleteBeforeInsert) {
 		if (deleteBeforeInsert) deleteAll();// delete all
 		if (null == list || list.isEmpty()) return false;
@@ -204,16 +242,15 @@ public class DBManager<T extends BaseSQLiteModel> {
 				operations.add(ContentProviderOperation.newInsert(mTableBaseUri).withValues(createFromBean(t)).build());
 			}
 			ContentProviderResult[] results = mContentResolver.applyBatch(mTableBaseUri.getAuthority(), operations);
-			ite = list.iterator();
-			int index = 0;
-			// 将id设置进Model对象中
-			while (ite.hasNext()) {
-				T t = ite.next();
-				if (!setNewInsertId(results[index++].uri, t)) {
-					break ;
+			if (hasPrimaryKey()) {
+				ite = list.iterator();
+				int index = 0;
+				// 将id设置进Model对象中
+				while (ite.hasNext()) {
+					setNewInsertId(results[index++].uri, ite.next());
 				}
 			}
-			FrameworkLog.d(TAG, "insertData<C, boolean> insert size: " + index);
+			FrameworkLog.d(TAG, "insertData<C, boolean> insert size: " + list.size());
 			FrameworkLog.d(TAG, "insertData<C, boolean> results.length: " + results.length);
 			return results.length == list.size();
 		} catch (Exception e) {
@@ -223,6 +260,12 @@ public class DBManager<T extends BaseSQLiteModel> {
 		}
 	}
 	
+	/**
+	 * 插入多条记录。
+	 * @param map 记录Map
+	 * @param deleteBeforeInsert 是否在插入之前清空表
+	 * @return 返回TRUE表示插入成功，并赋予主键值（如果含有主键）——如果没有主键，则根据返回的Uri的特性是否属于插入成功。
+	 */
 	public final boolean insertData(Map<?, T> map, boolean deleteBeforeInsert) {
 		if (null == map) {
 			return false;
@@ -249,6 +292,7 @@ public class DBManager<T extends BaseSQLiteModel> {
 					condition.getWhereClause(), condition.getWhereArgs(), condition.getSortOrder());
 			
 			if (!cursor.moveToFirst()) return null;
+			
 			List<T> list = new ArrayList<T>();
 			do {
 				list.add(createFromCursor(cursor));
@@ -265,6 +309,10 @@ public class DBManager<T extends BaseSQLiteModel> {
 		}
 	}
 	
+	/**
+	 * 根据条件查询单条记录。
+	 * @return 查询到的单个对象，如果没有则返回null
+	 */
 	public T queryOne(SQLiteCondition condition) {
 		Cursor cursor = null;
 		try {
@@ -284,6 +332,10 @@ public class DBManager<T extends BaseSQLiteModel> {
 		}
 	}
 	
+	/**
+	 * 根据主键（该处特殊为数值型主键）查询单条记录。
+	 * @return 查询到的单个对象，如果没有则返回null
+	 */
 	public T queryById(long id) {
 		Cursor cursor = null;
 		try {
@@ -303,6 +355,10 @@ public class DBManager<T extends BaseSQLiteModel> {
 		}
 	}
 	
+	/**
+	 * 根据主键查询单条记录。
+	 * @return 查询到的单个对象，如果没有则返回null
+	 */
 	public T queryByPrimaryKey(Object value) {
 		return queryOne(createSQLiteConditionFromPKValue(value));
 	}

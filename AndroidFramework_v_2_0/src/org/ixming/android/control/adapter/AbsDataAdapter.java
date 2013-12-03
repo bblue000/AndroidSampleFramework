@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.ixming.android.utils.AndroidUtil;
+import org.ixming.android.utils.AndroidUtils;
 
 import android.content.Context;
 import android.os.Handler;
@@ -165,7 +165,7 @@ implements AdapterChangeable<D>{
 		if (null == mOnDataSetChangedLisener) {
 			return ;
 		}
-		if (AndroidUtil.isMainThread()) {
+		if (AndroidUtils.isMainThread()) {
 			mOnDataSetChangedLisener.OnDataSetChanged(oldCount, newCount);
 		} else {
 			mHandler.post(new Runnable() {

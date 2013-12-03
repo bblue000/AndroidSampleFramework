@@ -9,8 +9,8 @@ import android.content.ContentValues;
  * use this class to put names and values of bean's field to ContentValues
  * 
  * <p>
- * 如果想要更新（Update,delete）表中的信息，调用者需要确定需要更新的“Model字段”和“表字段”，将他们设置到
- * 方法setUpdateContentValues提供的ContentValues中。
+ * 如果想要更新（Update,delete）表中的信息——又不需要更新所有的字段，或者调用处知道Bean中包含的字段可能不全，
+ * 调用处需要确定需要更新的“Model字段”和“表字段”，并将他们设置到方法setUpdateContentValues提供的ContentValues中。
  * </p>
  * @author Yin Yong
  * @version 1.0
@@ -22,7 +22,7 @@ public interface UpdateContentValues<Bean extends BaseSQLiteModel> {
 	/**
 	 * determine which columns you want to update
 	 * @param t get data fields from bean
-	 * @param values ContentValues of (column-value) to put into
+	 * @param values ContentValues of (column-value) pair to put into
 	 */
 	abstract void setUpdateContentValues(Bean t, ContentValues values) ;
 }

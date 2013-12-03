@@ -11,8 +11,8 @@ import android.widget.Toast;
  * @author YinYong
  * @version 1.0
  */
-public class ToastUtil {
-	private ToastUtil() { }
+public class ToastUtils {
+	private ToastUtils() { }
 
 	private static WeakReference<Toast> mToastRef;
 	
@@ -44,7 +44,7 @@ public class ToastUtil {
 	}
 	
 	public static void showToast(final Context context, Handler handler, final int resId){
-		if (AndroidUtil.isMainThread()) {
+		if (AndroidUtils.isMainThread()) {
 			showToast(context, resId);
 		} else {
 			try {
@@ -59,7 +59,7 @@ public class ToastUtil {
 	}
 
 	public static void showToast(final Context context, Handler handler, final CharSequence message){
-		if (AndroidUtil.isMainThread()) {
+		if (AndroidUtils.isMainThread()) {
 			showToast(context, message);
 		} else {
 			try {
@@ -92,7 +92,7 @@ public class ToastUtil {
 	}
 
 	public static void showLongToast(final Context context, Handler handler, final int resId){
-		if (AndroidUtil.isMainThread()) {
+		if (AndroidUtils.isMainThread()) {
 			showLongToast(context, resId);
 		} else {
 			try {
@@ -107,7 +107,7 @@ public class ToastUtil {
 	}
 
 	public static void showLongToast(final Context context, Handler handler, final CharSequence message){
-		if (AndroidUtil.isMainThread()) {
+		if (AndroidUtils.isMainThread()) {
 			showLongToast(context, message);
 		} else {
 			try {

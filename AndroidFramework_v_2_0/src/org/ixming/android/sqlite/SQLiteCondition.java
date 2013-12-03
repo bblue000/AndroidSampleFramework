@@ -5,6 +5,10 @@ import org.ixming.framework.annotation.UncertainState;
 /**
  * 为了更好、更方便地使用Android API 提供的数据库操作（查询，更新等），以及方便本框架内部的
  * 处理，就封装了该类——SQLiteCondition。
+ * 
+ * <p>
+ * 请使用静态方法{@link #create()}获得一个新的实例。
+ * </p>
  * @author Yin Yong
  * @version 1.0
  */
@@ -22,8 +26,10 @@ public class SQLiteCondition {
 		return new SQLiteCondition();
 	}
 	
-	private String where; private String[] whereArgs;
+	private String where; 
+	private String[] whereArgs;
 	private String sortClause;
+	
 	private SQLiteCondition() { }
 	
 	/**

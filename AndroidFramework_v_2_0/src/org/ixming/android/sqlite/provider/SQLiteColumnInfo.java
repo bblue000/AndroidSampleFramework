@@ -1,8 +1,11 @@
-package org.ixming.android.sqlite;
+package org.ixming.android.sqlite.provider;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import org.ixming.android.sqlite.ColumnType;
+import org.ixming.android.sqlite.SQLiteConflictAction;
+import org.ixming.android.sqlite.Sqlable;
 import org.ixming.android.sqlite.annotations.Column;
 import org.ixming.android.sqlite.annotations.PrimaryKey;
 import org.ixming.android.utils.FrameworkLog;
@@ -47,6 +50,7 @@ final class SQLiteColumnInfo implements Sqlable{
 		SUPPOTED_TYPE_MAP.put(byte.class, TYPE_BYTE);
 		
 		SUPPOTED_TYPE_MAP.put(byte[].class, TYPE_BYTEARRAY);
+		//SUPPOTED_TYPE_MAP.put(Byte[].class, TYPE_BYTEARRAY);
 	}
 
 	
@@ -99,6 +103,8 @@ final class SQLiteColumnInfo implements Sqlable{
 			return ColumnType.INTEGER;
 		case TYPE_LONG:
 			return ColumnType.LONG;
+		case TYPE_STRING:
+			return ColumnType.VARCHAR;
 		case TYPE_FLOAT:
 			return ColumnType.FLOAT;
 		case TYPE_DOUBLE:
@@ -109,7 +115,6 @@ final class SQLiteColumnInfo implements Sqlable{
 			return ColumnType.INTEGER;
 		case TYPE_BYTEARRAY:
 			return ColumnType.BLOB;
-		case TYPE_STRING:
 		default:
 			return ColumnType.VARCHAR;
 		}
@@ -118,26 +123,29 @@ final class SQLiteColumnInfo implements Sqlable{
 	@Override
 	public String toSql() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(" ").append(mColumnToken.name())
-			.append(" ").append(getSQLiteType().getSQLTypeName());
+		sb.append(SEPERATOR);
+		
+		sb.append(mColumnToken.name())
+			.append(SEPERATOR).append(getSQLiteType().getSQLTypeName());
 		if (null != mPKToken) {
-			sb.append(" ").append("PRIMARY KEY");
+			sb.append(SEPERATOR).append("PRIMARY KEY");
 			if (mPKToken.autoIncrement()) {
-				sb.append(" ").append("AUTOINCREMENT");
+				sb.append(SEPERATOR).append("AUTOINCREMENT");
 			}
 		}
 		SQLiteConflictAction onUniqueConflict = mColumnToken.onUniqueConflict();
 		switch (onUniqueConflict) {
 		case REPLACE:
 		default:
-			sb.append(" ").append("UNIQUE ON CONFLICT")
-			.append(" ").append(onUniqueConflict.toSql());
+			sb.append(SEPERATOR).append("UNIQUE ON CONFLICT")
+			.append(SEPERATOR).append(onUniqueConflict.toSql());
 			break;
 		case NONE:
 			// do nothing
 			break;
 		}
-		sb.append(" ");
+		
+		sb.append(SEPERATOR);
 		return sb.toString();
 	}
 	
@@ -207,28 +215,10 @@ final class SQLiteColumnInfo implements Sqlable{
 			break;
 		}
 	}
-	
-	public <T>void setValueToField(Object target, T val) {
-		setFieldValueToTarget(target, val);
-	}
-	
-	private <T>T wrapAndCastIfNeed(Object o, Class<T> clz) {
-		try {
-			return clz.cast(mField.get(o));
-		} catch (Exception e) {
-			FrameworkLog.e(TAG, "wrapAndCastIfNeed Exception: " + e.getMessage());
-			return null;
-		}
-	}
-	
-	private <T>void setFieldValueToTarget(Object target, T val) {
-		try {
-			mField.set(target, val);
-		} catch (Exception e) {
-			FrameworkLog.e(TAG, "setFieldValueToTarget Exception: " + e.getMessage());
-		}
-	}
-	
+
+	/**
+	 * 获得对象的变量值
+	 */
 	public Object getFieldValueFromTarget(Object target) {
 		try {
 			return mField.get(target);
@@ -237,4 +227,40 @@ final class SQLiteColumnInfo implements Sqlable{
 			return null;
 		}
 	}
+
+	/**
+	 * 设置对象的变量值
+	 */
+	public <T>void setValueToField(Object target, T val) {
+		setFieldValueToTarget(target, val);
+	}
+	
+	/**
+	 * 如果是基本类型，则转换为包装类。（基本类型-->包装类）
+	 * @param clz 包装类型
+	 */
+	@SuppressWarnings("unchecked")
+	private <T>T wrapAndCastIfNeed(Object target, Class<T> clz) {
+		try {
+			Object ret = mField.get(target);
+			if (clz.isInstance(ret)) {
+				return (T) ret;
+			}
+		} catch (Exception e) {
+			FrameworkLog.e(TAG, "wrapAndCastIfNeed Exception: " + e.getMessage());
+		}
+		return null;
+	}
+	
+	/**
+	 * 为本成员变量设置值
+	 */
+	private <T>void setFieldValueToTarget(Object target, T val) {
+		try {
+			mField.set(target, val);
+		} catch (Exception e) {
+			FrameworkLog.e(TAG, "setFieldValueToTarget Exception: " + e.getMessage());
+		}
+	}
+	
 }

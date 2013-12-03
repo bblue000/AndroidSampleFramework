@@ -17,7 +17,7 @@ public class LocalDBProvider extends BaseDBProvider {
 	 * 给数据库框架提供AUTHORITY
 	 */
 	@Override
-	protected String getAuthority() {
+	protected String provideAuthority() {
 		return AUTHORITY;
 	}
 
@@ -33,7 +33,7 @@ public class LocalDBProvider extends BaseDBProvider {
 	 * 获得当前的数据库版本。<br/><br/>
 	 * 此处需要持续更新。
 	 */
-	private int getCurrentVersion() {
+	protected int getCurrentVersion() {
 		return VERSION_1_0;
 	}
 

@@ -25,20 +25,33 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 
 /**
+ * 这是一个基于ContentProvider的封装。
+ * 
+ * <p>
  * this is a basic class to deal with database;
  * it doesn't support Uri as complex as “content://xxx/#/xxx/#”
+ * </p>
  * @author Yin Yong
  * @version 1.0
  */
 @TemporarilyDone
-public abstract class BaseDBProvider extends ContentProvider {
+public abstract class BaseDBProvider extends ContentProvider{
 	public static final String TAG = BaseDBProvider.class.getSimpleName();
 
-	
 	/** provide a new subclass of SQLiteOpenHelper, this is only called in onCreate()*/
 	protected abstract SQLiteOpenHelper provideSQLiteOpenHelper(Context context);
 	/** get the database authority*/
-	protected abstract String getAuthority();
+	protected abstract String provideAuthority();
+//	/** get the current database version int*/
+//	protected abstract int getCurrentVersion();
+	
+	protected final SQLiteOpenHelper getSQLiteOpenHelper() {
+		return mSQLiteOpenHelper;
+	}
+	
+	protected final SQLiteDatabase getWritableDatabase() {
+		return db;
+	}
 	
 	private final String SELECTION_BY_ID = BaseColumns._ID + " = ? ";
 	
@@ -55,7 +68,7 @@ public abstract class BaseDBProvider extends ContentProvider {
 	public final boolean onCreate() {
 		FrameworkLog.i(TAG, "DBProviderBase onCreate()");
 		mContext = getContext();
-		mAuthority = getAuthority();
+		mAuthority = provideAuthority();
 		if (TextUtils.isEmpty(mAuthority)) {
 			return false;
 		}
@@ -126,14 +139,6 @@ public abstract class BaseDBProvider extends ContentProvider {
 			mContext.getContentResolver().notifyChange(
 					uri.buildUpon().encodedPath(uriArgs.getTableName()).build(), null);
 		}
-	}
-	
-	protected final SQLiteOpenHelper getSQLiteOpenHelper() {
-		return mSQLiteOpenHelper;
-	}
-	
-	protected final SQLiteDatabase getWritableDatabase() {
-		return db;
 	}
 	
 	@Override
@@ -236,63 +241,4 @@ public abstract class BaseDBProvider extends ContentProvider {
 		}
 	}
 	
-	
-	// utilities
-	public static boolean isTableExisted(SQLiteDatabase db, String tableName) {
-		boolean flag = false;
-		Cursor c = null;
-		if (TextUtils.isEmpty(tableName)) {
-			return flag;
-		}
-		try {
-			c = db.query(" sqlite_master ", new String[] { "name" },
-					" type='table' AND name = ? ", new String[] { tableName },
-					null, null, null);
-			if (null != c) {
-				flag = c.getCount() > 0;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			flag = false;
-		} finally {
-			if (null != c) {
-				c.close();
-			}
-			FrameworkLog.i(TAG, tableName + " isTableExisted " + flag);
-		}
-		return flag;
-	}
-	
-	public static void dropTable(SQLiteDatabase db, String tableName) {
-		if (TextUtils.isEmpty(tableName)) {
-			return;
-		}
-		try {
-			db.execSQL(String.format("DROP TABLE IF EXISTS %s;", tableName));
-		} catch (Exception e) {
-			FrameworkLog.e(TAG, "DBProviderBase dropTable Exception: " + e.getMessage());
-			e.printStackTrace();
-		}
-	}
-	
-	public static void dropTables(SQLiteDatabase db, String[] tableNames) {
-		if (null == tableNames || tableNames.length == 0) {
-			return;
-		}
-		db.beginTransaction();
-		try {
-			for (String tabName : tableNames) {
-				if (!TextUtils.isEmpty(tabName))
-					db.execSQL(String.format("DROP TABLE IF EXISTS %s;", tabName));
-			}
-			db.setTransactionSuccessful();
-		} catch (Exception e) {
-			FrameworkLog.e(TAG, "DBProviderBase dropTables Exception: " + e.getMessage());
-			e.printStackTrace();
-		} finally {
-			// 结束事务
-			if (null != db)
-				db.endTransaction();
-		}
-	}
 }

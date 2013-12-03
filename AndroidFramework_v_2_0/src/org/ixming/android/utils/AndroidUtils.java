@@ -17,10 +17,10 @@ import android.webkit.URLUtil;
  * @author YinYong
  * @version 1.0
  */
-public class AndroidUtil {
-	private AndroidUtil() { }
+public class AndroidUtils {
+	private AndroidUtils() { }
 	
-	static final String TAG = AndroidUtil.class.getSimpleName();
+	static final String TAG = AndroidUtils.class.getSimpleName();
 	private static int displayWidth = 0;
 	private static int displayHeight = 0;
 	
@@ -158,7 +158,7 @@ public class AndroidUtil {
 					.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 //			context.startActivity(intent);
 		} catch (Exception e) {
-			ToastUtil.showToast(context, "没有合适的应用打开位置信息");
+			ToastUtils.showToast(context, "没有合适的应用打开位置信息");
 		}
 	}
 	
@@ -181,7 +181,7 @@ public class AndroidUtil {
 			context.startActivity(Intent.createChooser(intent, chooserTilte)
 					.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 		} catch (Exception e) {
-			ToastUtil.showToast(context, "没有合适的应用打开下载链接");
+			ToastUtils.showToast(context, "没有合适的应用打开下载链接");
 		}
 	}
 	

@@ -3,9 +3,9 @@ package org.ixming.android.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class PreferenceUtil {
+public class PreferenceUtils {
 
-	private PreferenceUtil() { }
+	private PreferenceUtils() { }
 	
 	public static long getValue(Context context, String node, String key,
 			long defaultValue) {

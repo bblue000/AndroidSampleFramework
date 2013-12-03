@@ -150,7 +150,7 @@ public enum ColumnType implements SQLDataType {
 	 * column type of BLOB
 	 */
 	BLOB {
-		private final Class<?>[] CLZ = new Class[]{ byte[].class };
+		private final Class<?>[] CLZ = new Class[]{ byte[].class, Byte[].class };
 		@Override
 		public String getSQLTypeName() {
 			return "BLOB";

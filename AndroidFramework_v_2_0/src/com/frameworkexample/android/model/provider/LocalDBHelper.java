@@ -1,6 +1,6 @@
 package com.frameworkexample.android.model.provider;
 
-import org.ixming.android.sqlite.DBManager;
+import org.ixming.android.sqlite.provider.DBManager;
 
 import com.frameworkexample.android.model.User;
 

@@ -1,4 +1,4 @@
-package org.ixming.android.sqlite;
+package org.ixming.android.sqlite.provider;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -6,6 +6,8 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.ixming.android.sqlite.BaseSQLiteModel;
+import org.ixming.android.sqlite.Sqlable;
 import org.ixming.android.sqlite.annotations.Table;
 import org.ixming.android.utils.FrameworkLog;
 import org.ixming.framework.annotation.UncertainState;
@@ -147,10 +149,11 @@ class SQLiteModelInfo implements Sqlable{
 		StringBuffer sb = new StringBuffer();
 		
 		boolean hasPK = (null != mPrimaryColumn);
-		sb.append("CREATE TABLE ").append(mTableInfo.name()).append(" ( ");
+		sb.append("CREATE TABLE").append(SEPERATOR)
+			.append(mTableInfo.name()).append(SEPERATOR).append("(").append(SEPERATOR);
 		if (hasPK) {
 			sb.append(mPrimaryColumn.toSql());
-			sb.append(" ");
+			sb.append(SEPERATOR);
 		}
 		
 		int i = -1;

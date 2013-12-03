@@ -19,7 +19,11 @@ public @interface Column {
 	static final int LEN_UNDEFINED = Integer.MIN_VALUE;
 
 	/**
-	 * 对应的名称，该框架需要客户端指定；当需要条件查询时，能够让客户端自行决定。
+	 * 列名称。
+	 * <p>
+	 * 该框架需要客户端指定；既然外部的查询我们无法预测，必然需要客户端自行保存各列的常量。<br/>
+	 * 当需要条件查询时，客户端就能自行决定。
+	 * </p>
 	 */
 	public String name();
 	
