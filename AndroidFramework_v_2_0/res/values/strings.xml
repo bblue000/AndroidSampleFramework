@@ -5,4 +5,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
 
+    <string-array name="testStrArr">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
 </resources>
