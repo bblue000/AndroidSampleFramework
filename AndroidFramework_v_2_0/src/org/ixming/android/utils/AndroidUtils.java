@@ -181,7 +181,7 @@ public class AndroidUtils {
 			context.startActivity(Intent.createChooser(intent, chooserTilte)
 					.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 		} catch (Exception e) {
-			ToastUtils.showToast(context, "没有合适的应用打开下载链接");
+			ToastUtils.showToast(context, "没有合适的应用打开链接");
 		}
 	}
 	

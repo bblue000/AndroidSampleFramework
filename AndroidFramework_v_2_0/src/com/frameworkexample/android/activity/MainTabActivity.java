@@ -47,7 +47,6 @@ public class MainTabActivity extends BaseFragmentTabActivity {
 	
 	@Override
 	public void initView(View view) {
-		
 	}
 
 	@Override

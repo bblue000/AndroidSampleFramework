@@ -11,7 +11,8 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:debuggable="true">
         <activity
             android:name="com.frameworkexample.android.activity.MainTabActivity"
             android:label="@string/app_name" 
