@@ -1,13 +1,12 @@
 package com.frameworkexample.android.model.provider;
 
-import org.ixming.android.sqlite.provider.DBManager;
+import org.ixming.android.sqlite.provider.SQLiteUtils;
 
 import com.frameworkexample.android.model.User;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * a example of SQLiteOpenHelper()
@@ -40,9 +39,7 @@ import android.util.Log;
 	
 	// =====================================================
 	private void modifyTables_V1_0(SQLiteDatabase db){
-		String sql = DBManager.getTableCreation(User.class);
-		Log.d(TAG, "modifyTables_V1_0 User: " + sql);
-		db.execSQL(sql);
+		SQLiteUtils.createTableAndIndices(db, User.class);
 	}
 	
 	@SuppressWarnings("unused")

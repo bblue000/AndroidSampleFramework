@@ -10,6 +10,7 @@ import org.ixming.android.sqlite.BaseSQLiteModel;
 import org.ixming.android.sqlite.SQLiteCondition;
 import org.ixming.android.sqlite.SQLiteConditionDefiner;
 import org.ixming.android.sqlite.UpdateContentValues;
+import org.ixming.android.sqlite.annotations.Column;
 import org.ixming.android.utils.FrameworkLog;
 import org.ixming.framework.annotation.TemporarilyDone;
 import org.ixming.utils.NumberUtils;
@@ -43,6 +44,14 @@ public class DBManager<T extends BaseSQLiteModel> {
 		return SQLiteModelInfo.parseModel(clz).toSql();
 	}
 	
+	/**
+	 * 根据提供的clz对象，使用反射查找Table和Column信息，然后运行时自动组合成Index创建语句。
+	 * @return null, or 长度为 {@link Column#asIndex()} == true的列个数的String数组。
+	 */
+	public static <T extends BaseSQLiteModel>String[] getTableIndexCreation(Class<T> clz) {
+		return SQLiteModelInfo.parseModel(clz).getIndexCreations();
+	}
+	
 	private ContentResolver mContentResolver;
 	private Class<T> mClass;
 	private Uri mTableBaseUri;
@@ -53,7 +62,8 @@ public class DBManager<T extends BaseSQLiteModel> {
 	DBManager(Context context, Class<T> clz) {
 		mContentResolver = context.getContentResolver();
 		mClass = clz;
-		mSQLiteModelInfo = SQLiteModelInfo.parseModel(mClass);
+		// get and remove from SQLiteModelInfo self cache
+		mSQLiteModelInfo = SQLiteModelInfo.parseOfPullFromCache(mClass, true);
 		mAuthority = mSQLiteModelInfo.getAuthority();
 		mTableName = mSQLiteModelInfo.getTableName();
 		mColumns = mSQLiteModelInfo.getColumns();

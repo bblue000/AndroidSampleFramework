@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.ixming.android.sqlite.BaseSQLiteModel;
 import org.ixming.android.sqlite.Sqlable;
@@ -14,6 +15,9 @@ import org.ixming.framework.annotation.UncertainState;
 
 class SQLiteModelInfo implements Sqlable{
 	final static String TAG = SQLiteModelInfo.class.getSimpleName();
+	
+	private static final ConcurrentHashMap<Class<?>, WeakReference<SQLiteModelInfo>> mSQLiteModelInfoCache
+		= new ConcurrentHashMap<Class<?>, WeakReference<SQLiteModelInfo>>();
 	/**
 	 * <p>
 	 * <i>Tip1</i><br/>
@@ -33,6 +37,39 @@ class SQLiteModelInfo implements Sqlable{
 	 * </p>
 	 */
 	public static SQLiteModelInfo parseModel(Class<?> clz) {
+		return parseOfPullFromCache(clz, false);
+	}
+	
+	static SQLiteModelInfo parseOfPullFromCache(Class<?> clz, boolean pullFromCache) {
+		if (null == clz) {
+			throw new NullPointerException("clz: " + clz + "!");
+		}
+		// get from cache
+		SQLiteModelInfo targetInfo = findFromCache(clz, pullFromCache);
+		if (null != targetInfo) {
+			return targetInfo;
+		}
+		// new generated
+		checkModifiers(clz);
+		return generateNewInfo(clz);
+	}
+	
+	private static SQLiteModelInfo findFromCache(Class<?> clz, boolean pullFromCache) {
+		// get from cache
+		WeakReference<SQLiteModelInfo> cacheRef;
+		SQLiteModelInfo targetInfo;
+		if (pullFromCache) {
+			cacheRef = mSQLiteModelInfoCache.remove(clz);
+		} else {
+			cacheRef = mSQLiteModelInfoCache.get(clz);
+		}
+		if (null != cacheRef && null != (targetInfo = cacheRef.get())) {
+			return targetInfo;
+		}
+		return null;
+	}
+	
+	private static void checkModifiers(Class<?> clz) {
 		int modifiers = clz.getModifiers();
 		if (Modifier.isInterface(modifiers)) {
 			throw new IllegalArgumentException("clz: " + clz + " is a interface!");
@@ -40,6 +77,9 @@ class SQLiteModelInfo implements Sqlable{
 		if (Modifier.isAbstract(modifiers)) {
 			throw new IllegalArgumentException("clz: " + clz + " is a abstract class!");
 		}
+	}
+	
+	private static SQLiteModelInfo generateNewInfo(Class<?> clz) {
 		// create a new one or update the map
 		Table tableAn = clz.getAnnotation(Table.class);
 		if (null == tableAn) {
@@ -47,7 +87,7 @@ class SQLiteModelInfo implements Sqlable{
 		}
 		SQLiteColumnInfo pkInfo = null;
 		HashMap<String, SQLiteColumnInfo> columnInfoMap = new HashMap<String, SQLiteColumnInfo>();
-		
+		HashMap<String, SQLiteColumnInfo> indexedColumnMap = null;
 		boolean isPKLoaded = false;
 		boolean isTargetClass = true;
 		@UncertainState
@@ -68,23 +108,32 @@ class SQLiteModelInfo implements Sqlable{
 						FrameworkLog.d(TAG, "parseModel::not a extendable Column field");
 						continue;
 					}
-					if (isPKLoaded && colInfo.isPrimaryKey()/* && colInfo.isExtendable()*/) {
-						FrameworkLog.w(TAG, "parseModel::there are multi extendable Column fields!");
-						//throw new UnsupportedOperationException("parseModel::there are multi extendable Column fields!"
-						//		+ "please set 'false' to Column's 'extendable' field in super classes!");
-						continue;
-					}
 					// 判断是否是主键。此处注意最先找到的主键认定为主键，所以确保主键定义不会受继承关系影响
-					if (!isPKLoaded) {
-						if (colInfo.isPrimaryKey()) {
+					if (colInfo.isPrimaryKey()) {
+						if (isPKLoaded) {
+							FrameworkLog.w(TAG, "parseModel::there are multi extendable Column fields!");
+							//throw new UnsupportedOperationException("parseModel::there are multi extendable Column fields!"
+							//		+ "please set 'false' to Column's 'extendable' field in super classes!");
+						} else {
 							isPKLoaded = true;
 							pkInfo = colInfo;
-							continue;
+						}
+						continue;
+					} else {
+						if (colInfo.isAsIndex()) {
+							if (null == indexedColumnMap) {
+								indexedColumnMap = new HashMap<String, SQLiteColumnInfo>();
+							}
+							indexedColumnMap.put(colInfo.getColumnName(), colInfo);
 						}
 					}
 					// 内部实现的hash查询应当快一点，与使用HashSet一样，而HashSet内部实际是HashMap实现的
-					if (columnInfoMap.containsKey(colInfo.getColumnName())) {
-						continue;
+					if (null != columnInfoMap && columnInfoMap.containsKey(colInfo.getColumnName())) {
+						throw new RuntimeException("clz: " + clz + " has multi columns named ["
+								+ colInfo.getColumnName() + "]!");
+					}
+					if (null == columnInfoMap) {
+						columnInfoMap = new HashMap<String, SQLiteColumnInfo>();	
 					}
 					columnInfoMap.put(colInfo.getColumnName(), colInfo);
 				}
@@ -97,19 +146,26 @@ class SQLiteModelInfo implements Sqlable{
 			throw new UnsupportedOperationException("no columns! if exception occurs when doing parsing? or "
 					+ "no class implements interface <BaseSQLiteModel>");
 		}
-		
-		return new WeakReference<SQLiteModelInfo>(new SQLiteModelInfo(tableAn, pkInfo, columnInfoMap)).get();
+		SQLiteModelInfo targetInfo = new SQLiteModelInfo(tableAn, pkInfo, columnInfoMap, indexedColumnMap);
+		mSQLiteModelInfoCache.put(clz, new WeakReference<SQLiteModelInfo>(targetInfo));
+		return targetInfo;
 	}
 	
 	
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// inner implement
 	private Table mTableInfo;
 	private SQLiteColumnInfo mPrimaryColumn;
 	private HashMap<String, SQLiteColumnInfo> mColumnMap;
-	private SQLiteModelInfo(Table tableInfo, SQLiteColumnInfo primaryColumn,
-			HashMap<String, SQLiteColumnInfo> columnMap) {
+	private HashMap<String, SQLiteColumnInfo> mIndexedColumnMap;
+	SQLiteModelInfo(Table tableInfo, SQLiteColumnInfo primaryColumn,
+			HashMap<String, SQLiteColumnInfo> columnMap,
+			HashMap<String, SQLiteColumnInfo> indexedColumnMap) {
 		mTableInfo = tableInfo;
 		mPrimaryColumn = primaryColumn;
 		mColumnMap = columnMap;
+		mIndexedColumnMap = indexedColumnMap;
 	}
 	
 	public String getAuthority() {
@@ -146,11 +202,13 @@ class SQLiteModelInfo implements Sqlable{
 
 	@Override
 	public String toSql() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder(50);
 		
 		boolean hasPK = (null != mPrimaryColumn);
 		sb.append("CREATE TABLE").append(SEPERATOR)
-			.append(mTableInfo.name()).append(SEPERATOR).append("(").append(SEPERATOR);
+			.append(mTableInfo.name()).append(SEPERATOR);
+		
+		sb.append(LEFT_BRACKET).append(SEPERATOR);
 		if (hasPK) {
 			sb.append(mPrimaryColumn.toSql());
 			sb.append(SEPERATOR);
@@ -161,22 +219,44 @@ class SQLiteModelInfo implements Sqlable{
 		while (ite.hasNext()) {
 			if (i < 0) {
 				if (hasPK) {
-					sb.append(" , ");
+					sb.append(COMMA).append(SEPERATOR);
 				}
 				i ++;
 			} else {
-				sb.append(" , ");
+				sb.append(COMMA).append(SEPERATOR);
 			}
 			sb.append(ite.next().toSql());
+			sb.append(SEPERATOR);
 		}
 		
-		sb.append(" ); ");
+		sb.append(RIGHT_BRACKET).append(END);
 		return sb.toString();
 	}
 	
 	@Override
 	public String toString() {
 		return toSql();
+	}
+	
+	public String[] getIndexCreations() {
+		if (null == mIndexedColumnMap) {
+			return null;
+		}
+		String[] temp = new String[mIndexedColumnMap.size()];
+		Iterator<SQLiteColumnInfo> ite = mIndexedColumnMap.values().iterator();
+		String tableName = mTableInfo.name();
+		int i = 0;
+		while (ite.hasNext()) {
+			StringBuffer sb = new StringBuffer(50);
+			SQLiteColumnInfo col = ite.next();
+			sb.append("CREATE INDEX").append(SEPERATOR)
+			.append(tableName).append(UNDERSCORE).append(col.getColumnName()).append(SEPERATOR)
+			.append("on").append(SEPERATOR).append(tableName)
+			.append(LEFT_BRACKET).append(col.getColumnName()).append(RIGHT_BRACKET);
+			sb.append(END);
+			temp[i++] = sb.toString();
+		}
+		return temp;
 	}
 	
 	@Override
@@ -188,6 +268,10 @@ class SQLiteModelInfo implements Sqlable{
 		if (null != mColumnMap) {
 			mColumnMap.clear();
 			mColumnMap = null;
+		}
+		if (null != mIndexedColumnMap) {
+			mIndexedColumnMap.clear();
+			mIndexedColumnMap = null;
 		}
 		
 		super.finalize();

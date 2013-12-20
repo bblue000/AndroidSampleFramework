@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 public @interface PrimaryKey {
 
 	/**
-	 * 主键是否是自增长
+	 * 主键是否是自增长。默认为true。
 	 */
 	boolean autoIncrement() default true;
 	

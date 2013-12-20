@@ -31,6 +31,11 @@ public @interface Column {
 	 * 如果有继承关系的两个类，该列对应的属性存在于父类，是否被子类继承和识别。默认为True
 	 */
 	public boolean extendable() default true;
+
+	/**
+	 * 是否创建索引。默认为false
+	 */
+	public boolean asIndex() default false;
 	
 	public SQLiteConflictAction onUniqueConflict() default SQLiteConflictAction.NONE;
 	

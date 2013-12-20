@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class LocalDBProvider extends BaseDBProvider {
 
-	public static final String AUTHORITY = "com.frameworkexample.android.model.db.provider";
+	public static final String AUTHORITY = "com.projecttemplate.android.model.db.provider";
 	
-	/*package*/static final String DATABASE_NAME = "wuxiadou.db";
+	/*package*/static final String DATABASE_NAME = "androidprojecttemplate.db";
 	
 	/*package*/static int VERSION_1_0 = 1;
 	

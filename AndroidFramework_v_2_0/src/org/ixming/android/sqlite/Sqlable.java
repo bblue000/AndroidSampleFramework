@@ -9,6 +9,16 @@ public interface Sqlable {
 
 	String SEPERATOR = " ";
 	
+	String COMMA = ",";
+	
+	String LEFT_BRACKET = "(";
+	
+	String RIGHT_BRACKET = ")";
+	
+	String UNDERSCORE = "_";
+	
+	String END = ";";
+	
 	/**
 	 * 转化为SQL语句
 	 */
