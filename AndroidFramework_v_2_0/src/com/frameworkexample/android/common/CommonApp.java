@@ -2,6 +2,6 @@ package com.frameworkexample.android.common;
 
 import android.app.Application;
 
-public class IxmingApp extends Application {
+public class CommonApp extends Application {
 
 }

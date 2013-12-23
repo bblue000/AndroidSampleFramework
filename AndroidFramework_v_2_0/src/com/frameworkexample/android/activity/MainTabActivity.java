@@ -13,7 +13,7 @@ public class MainTabActivity extends BaseFragmentTabActivity {
 	final String TAG = MainTabActivity.class.getSimpleName();
 	
 	@Override
-	public int getLayoutResId() {
+	protected int provideLayoutResId() {
 		return R.layout.activity_maintab;
 	}
 	
@@ -60,7 +60,7 @@ public class MainTabActivity extends BaseFragmentTabActivity {
 	}
 
 	@Override
-	public Handler createActivityHandler() {
+	protected Handler provideActivityHandler() {
 		return null;
 	}
 

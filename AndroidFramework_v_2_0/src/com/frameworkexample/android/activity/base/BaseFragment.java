@@ -10,17 +10,32 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-public abstract class BaseFragment extends Fragment
-implements ILocalFragment{
+public abstract class BaseFragment extends Fragment implements OnClickListener{
 
-	private View mRootView;
+	// root view是否已经创建，如果没有创建，而想使用应该创建后才能使用的方法时，将抛出异常
 	private boolean mIsRootViewCreated = false;
-	protected Context appContext;
+	// 根View，外部提供的View——Activity的根View其实是内置的FrameLayout
+	private View mRootView;
+	/**
+	 * 这是一个Activity引用
+	 */
 	protected Context context;
+	/**
+	 * 这是一个application context引用
+	 */
+	protected Context appContext;
+	/**
+	 * 持有该Fragment的FragmentActivity的引用
+	 */
 	protected FragmentActivity fragmentActivity;
+	/**
+	 * 这是一个Handler，由
+	 */
 	protected Handler handler;
+	
 	/**
      * Called to do initial creation of a fragment.  This is called after
      * {@link #onAttach(Activity)} and before
@@ -51,7 +66,7 @@ implements ILocalFragment{
 			Bundle savedInstanceState) {
 		LogUtils.i("BaseFragment","execute onCreateView!!! ");
 		// 为了实现findViewById
-		mRootView = inflater.inflate(getLayoutResId(), container, false);
+		mRootView = inflater.inflate(provideLayoutResId(), container, false);
 		// 保证RootView加载完成
 		mIsRootViewCreated = true;
 		return mRootView;
@@ -87,20 +102,163 @@ implements ILocalFragment{
 	@Override
 	public final void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		// 给一些变量赋值
 		context = getActivity();
-		appContext = getActivity().getApplicationContext();
-		handler = createActivityHandler();
+		appContext = context.getApplicationContext();
 		fragmentActivity = getActivity();
-		
+		handler = provideActivityHandler();
+
+		// 细分生命周期
 		prepareInitView(mRootView);
 		initView(mRootView);
-		
 		initListener();
-		
 		prepareInitData(mRootView, savedInstanceState);
 		initData(mRootView, savedInstanceState);
 	}
 	
+	// TODO >>>>>>>>>>>>>>>>>>>>>>>>>
+	// 需要子类提供的一些东西
+	/**
+	 * 创建一个本Activity的Handler对象，此方法在onCreate()中调用，且 在initView及initData之前。
+	 * <p>
+	 * 该方法的目的是分离代码，让需要Handler的Activity中的Handler的声明集中。
+	 * </p>
+	 * @added 1.0
+	 */
+	protected abstract Handler provideActivityHandler();
+	
+	/**
+	 * define the layout res of the activity
+	 */
+	protected abstract int provideLayoutResId();
+
+	// TODO >>>>>>>>>>>>>>>>>>>>>>>>
+	// 在onCreate中细分的步骤 start
+	/**
+	 * 这是为了一些弥补操作预留的
+	 * 
+	 * @param rootView
+	 */
+	void prepareInitView(View rootView) {
+	};
+
+	/**
+	 * called before {@link #initData(View, android.os.Bundle)} while
+	 * {@link Activity#onCreated(android.os.Bundle)} is running
+	 * 
+	 * @param view
+	 *            root view of the activity
+	 * 
+	 * @see #findViewById(int)
+	 */
+	protected abstract void initView(View rootView);
+
+	/**
+	 * initView 之后，initData之前被调用
+	 * 
+	 * @added 1.0
+	 */
+	protected abstract void initListener();
+
+	/**
+	 * 这是为了一些弥补操作预留的
+	 * 
+	 * @param rootView
+	 */
+	void prepareInitData(View rootView, Bundle savedInstanceState) {
+	};
+
+	/**
+	 * called immediately after {@link #initView(View)} while
+	 * {@link Activity#onCreated(android.os.Bundle)} is running
+	 * 
+	 * @param view
+	 *            root view of the activity
+	 * @param savedInstanceState
+	 *            If the activity is being re-created from a previous saved
+	 *            state, this is the state.
+	 */
+	protected abstract void initData(View view, Bundle savedInstanceState);
+
+	// >>>>>>>>>>>>>>>>>>>>>>>>
+	// 在onCreate中细分的步骤 end
+
+	// TODO 获取内部的View
+	/**
+	 * this method returns the pure root View.
+	 */
+	public final View getRootView() {
+		ensureRootViewCreated();
+		return mRootView;
+	}
+
+	@SuppressWarnings("unchecked")
+	public final <T extends View>T findViewById(int id) {
+		ensureRootViewCreated();
+		return (T) mRootView.findViewById(id);
+	}
+
+	// TODO >>>>>>>>>>>>>>>>>>>>>>>
+	// 设置onClick监听事件
+	/**
+	 * 通过ID找到指定的View，并为之添加监听器；<br/>
+	 * 该方法着重强调此View只需添加点击事件，而不会对之进行状态或者 显示的改变。
+	 * 
+	 * @see 推荐使用{@link org.ixming.android.inject.InjectorUtils}
+	 */
+	protected BaseFragment bindClickListener(int resId) {
+		return bindClickListener(findViewById(resId));
+	}
+
+	/**
+	 * 给指定的View添加监听器
+	 * 
+	 * @see 推荐使用{@link org.ixming.android.inject.InjectorUtils}
+	 */
+	protected BaseFragment bindClickListener(View view) {
+		if (null != view) {
+			view.setOnClickListener(this);
+		}
+		return this;
+	}
+
+	/**
+	 * 移除resId指定的View的单击事件监听器
+	 */
+	protected BaseFragment removeClickListener(int resId) {
+		return removeClickListener(findViewById(resId));
+	}
+
+	/**
+	 * 移除View的单击事件监听器
+	 */
+	protected BaseFragment removeClickListener(View view) {
+		if (null != view) {
+			view.setOnClickListener(null);
+		}
+		return this;
+	}
+
+	@Override
+	public void onClick(View v) {
+	}
+	
+	public boolean onBackPressed() {
+		return false;
+	}
+	
+	protected final void ensureRootViewCreated() {
+		if (!mIsRootViewCreated) {
+			throw new IllegalStateException("root view hasn't been created yet");
+		}
+	}
+	
+	protected final Context getApplicationContext() {
+		return appContext;
+	}
+	
+	//TODO >>>>>>>>>>>>>>>>>>>>>>>>>>
+	// 生命周期相关
 	@Override
 	public void onDetach() {
 		LogUtils.i("BaseFragment","execute onDetach!!! ");	
@@ -135,63 +293,5 @@ implements ILocalFragment{
 	public void onPause() {
 		LogUtils.d("BaseFragment","execute onPause!!! ");	
 		super.onPause();
-	}
-	
-	void prepareInitView(View rootView) { }
-	void prepareInitData(View rootView, Bundle savedInstanceState) { }
-	
-	@Override
-	public boolean onBackPressed() {
-		return false;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public final <T extends View>T findViewById(int id) {
-		ensureRootViewCreated();
-		return (T) mRootView.findViewById(id);
-	}
-	
-	public final View getRootView() {
-		ensureRootViewCreated();
-		return mRootView;
-	}
-	protected abstract Handler createActivityHandler();
-	
-	protected final void ensureRootViewCreated() {
-		if (!mIsRootViewCreated) {
-			throw new IllegalStateException("root view hasn't been created yet");
-		}
-	}
-	
-	@Override
-	public final Context getApplicationContext() {
-		return getActivity().getApplicationContext();
-	}
-	
-	@Override
-	public final BaseFragment bindClickListener(int id) {
-		return bindClickListener(findViewById(id));
-	}
-	
-	@Override
-	public final BaseFragment bindClickListener(View view) {
-		if (null != view) {
-			view.setOnClickListener(this);
-		}
-		return this;
-	}
-
-	@Override
-	public BaseFragment removeClickListener(int id) {
-		return bindClickListener(findViewById(id));
-	}
-	
-	@Override
-	public BaseFragment removeClickListener(View view) {
-		if (null != view) {
-			view.setOnClickListener(null);
-		}
-		return this;
 	}
 }
