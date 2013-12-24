@@ -28,17 +28,17 @@ public abstract class BaseCommonTitleBarActivity extends BaseActivity implements
 	}
 
 	@Override
-	public View getTitleBarRootView() {
+	public final View getTitleBarRootView() {
 		return mController.getTitleBarRootView();
 	}
 
 	@Override
-	public <T extends View> T findTitleBarViewById(int id) {
+	public final <T extends View> T findTitleBarViewById(int id) {
 		return mController.findTitleBarViewById(id);
 	}
 	
 	@Override
-	public CommonTitleBarController getCommonTitleBarController() {
+	public final CommonTitleBarController getCommonTitleBarController() {
 		return mController;
 	}
 }

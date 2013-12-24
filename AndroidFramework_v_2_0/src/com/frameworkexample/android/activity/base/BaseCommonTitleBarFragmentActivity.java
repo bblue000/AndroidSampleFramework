@@ -5,9 +5,8 @@ import android.view.View;
 import com.frameworkexample.android.common.CommonTitleBarContainer;
 import com.frameworkexample.android.common.CommonTitleBarController;
 
-
-public abstract class BaseCommonTitleBarFragment extends BaseFragment
-implements CommonTitleBarContainer {
+public abstract class BaseCommonTitleBarFragmentActivity extends
+		BaseFragmentActivity implements CommonTitleBarContainer {
 
 	private CommonTitleBarController mController;
 	@Override
@@ -33,5 +32,5 @@ implements CommonTitleBarContainer {
 	public final CommonTitleBarController getCommonTitleBarController() {
 		return mController;
 	}
-	
+
 }

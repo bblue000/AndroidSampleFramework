@@ -53,16 +53,16 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements
 	// TODO >>>>>>>>>>>>>>>>>>>>>>>>>
 	// 需要子类提供的一些东西
 	/**
+	 * define the layout res of the activity
+	 */
+	protected abstract int provideLayoutResId();
+	
+	/**
 	 * 创建一个本Activity的Handler对象，此方法在onCreate()中调用，且 在initView及initData之前。
 	 * 
 	 * @added 1.0
 	 */
 	protected abstract Handler provideActivityHandler();
-
-	/**
-	 * define the layout res of the activity
-	 */
-	protected abstract int provideLayoutResId();
 
 	// TODO >>>>>>>>>>>>>>>>>>>>>>>>
 	// 在onCreate中细分的步骤 start
