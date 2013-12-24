@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ids for title bar -->
+    <item type="id" name="common_titlebar"/>
+    <!-- 第一种形式，即中间显示当前页，两边各有一个预留控制位 -->
+    <item type="id" name="common_titlebar_center"/>
+    <item type="id" name="common_titlebar_left"/>
+    <item type="id" name="common_titlebar_right"/>
+    
+    
+    <!-- dimens for title bar -->
+    <dimen name="titlebar_container_hpadding">0dip</dimen>
+    <dimen name="titlebar_container_vpadding">0dip</dimen>
+    <dimen name="titlebar_height">50dip</dimen>
+    <dimen name="titlebar_left_width">50dip</dimen>
+    <dimen name="titlebar_left_height">50dip</dimen>
+    <dimen name="titlebar_right_width">50dip</dimen>
+    <dimen name="titlebar_right_height">50dip</dimen>
+    <dimen name="titlebar_side_margin">5dip</dimen>
+    <dimen name="titlebar_center_hmargin">5dip</dimen>
+    
+    <dimen name="titlebar_center_textsize">18sp</dimen>
+    <dimen name="titlebar_sides_textsize">14sp</dimen>
+    <dimen name="titlebar_sides_drawable_padding">5dip</dimen>
+    
+    <!-- colors for title bar -->
+    <color name="titlebar_center_textcolor">#FFFFFFFF</color>
+    <color name="titlebar_sides_textcolor">#FFFFFFFF</color>
+</resources>

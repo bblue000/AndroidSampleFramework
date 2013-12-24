@@ -1,0 +1,21 @@
+<!-- 中间显示当前界面主题 -->
+<!-- 左右两边各有一个控制按钮，可显示可隐藏（可以再定制） -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TitleBar.Container" >
+
+    <RelativeLayout style="@style/TitleBar.ContainerOfCenter" >
+
+        <TextView
+            style="@style/TitleBar.Text.Center"
+            android:text="@string/app_name" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/TitleBar.Text.Sides.Left"
+        android:text="@string/app_name" />
+
+    <TextView
+        style="@style/TitleBar.Text.Sides.Right"
+        android:text="@string/app_name" />
+
+</RelativeLayout>

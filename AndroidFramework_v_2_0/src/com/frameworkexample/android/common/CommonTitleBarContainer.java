@@ -21,4 +21,5 @@ public interface CommonTitleBarContainer {
 	 */
 	<T extends View>T findTitleBarViewById(int id);
 	
+	CommonTitleBarController getCommonTitleBarController();
 }

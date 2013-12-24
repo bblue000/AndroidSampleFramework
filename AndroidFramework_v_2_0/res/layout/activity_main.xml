@@ -2,7 +2,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-
+	<include layout="@layout/common_titlebar"/>
+    
     <TextView
         android:id="@+id/tv1"
         android:layout_width="wrap_content"

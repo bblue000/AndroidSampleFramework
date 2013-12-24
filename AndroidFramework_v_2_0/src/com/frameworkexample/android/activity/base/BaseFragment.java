@@ -119,6 +119,11 @@ public abstract class BaseFragment extends Fragment implements OnClickListener{
 	// TODO >>>>>>>>>>>>>>>>>>>>>>>>>
 	// 需要子类提供的一些东西
 	/**
+	 * define the layout res of the activity
+	 */
+	protected abstract int provideLayoutResId();
+	
+	/**
 	 * 创建一个本Activity的Handler对象，此方法在onCreate()中调用，且 在initView及initData之前。
 	 * <p>
 	 * 该方法的目的是分离代码，让需要Handler的Activity中的Handler的声明集中。
@@ -126,11 +131,6 @@ public abstract class BaseFragment extends Fragment implements OnClickListener{
 	 * @added 1.0
 	 */
 	protected abstract Handler provideActivityHandler();
-	
-	/**
-	 * define the layout res of the activity
-	 */
-	protected abstract int provideLayoutResId();
 
 	// TODO >>>>>>>>>>>>>>>>>>>>>>>>
 	// 在onCreate中细分的步骤 start
