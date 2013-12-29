@@ -5,6 +5,8 @@ import org.ixming.android.inject.ResTargetType;
 import org.ixming.android.inject.annotation.ResInject;
 import org.ixming.android.inject.annotation.ViewInject;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -87,6 +89,7 @@ public class Fragment1 extends BaseFragment {
 		LogUtils.i("yytest", "initData res8 = " + res8 );
 		LogUtils.i("yytest", "initData res9 = " + res9 );
 		LogUtils.i("yytest", "initData getIntArray = " + getActivity().getResources().getIntArray(R.array.testStrArr)[0] );
+		LogUtils.i("yytest", "initData getMemoryClass = " + ((ActivityManager)getActivity().getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass() );
 	}
 	
 	private void test1() {
