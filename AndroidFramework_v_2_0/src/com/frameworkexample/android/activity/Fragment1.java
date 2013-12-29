@@ -64,7 +64,7 @@ public class Fragment1 extends BaseFragment {
 	private View view6;
 	
 	@Override
-	public int getLayoutResId() {
+	public int provideLayoutResId() {
 		return R.layout.activity_main;
 	}
 
@@ -111,7 +111,7 @@ public class Fragment1 extends BaseFragment {
 	}
 
 	@Override
-	protected Handler createActivityHandler() {
+	protected Handler provideActivityHandler() {
 
 		return null;
 	}

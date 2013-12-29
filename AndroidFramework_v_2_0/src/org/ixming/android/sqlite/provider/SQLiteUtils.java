@@ -1,5 +1,6 @@
-package org.ixming.android.sqlite;
+package org.ixming.android.sqlite.provider;
 
+import org.ixming.android.sqlite.BaseSQLiteModel;
 import org.ixming.android.utils.FrameworkLog;
 
 import android.database.Cursor;
@@ -12,6 +13,25 @@ public class SQLiteUtils {
 	
 	private SQLiteUtils() { }
 
+	public static <T extends BaseSQLiteModel>boolean createTableAndIndices(SQLiteDatabase db, Class<T> clz) {
+		try {
+			String sql = DBManager.getTableCreation(clz);
+			FrameworkLog.d(TAG, "createTableAndIndices table: " + sql);
+			db.execSQL(sql);
+			String indexes[] = DBManager.getTableIndexCreation(clz);
+			if (null != indexes) {
+				for (String indexSql : indexes) {
+					FrameworkLog.d(TAG, "createTableAndIndices index: " + indexSql);
+					db.execSQL(indexSql);
+				}
+			}
+			return true;
+		} catch (Exception e) {
+			FrameworkLog.e(TAG, "createTableAndIndices exception : " + e.getMessage());
+			return false;
+		}
+	}
+	
 	// utilities
 	public static boolean isTableExisted(SQLiteDatabase db, String tableName) {
 		boolean flag = false;
@@ -65,6 +85,29 @@ public class SQLiteUtils {
 		} catch (Exception e) {
 			FrameworkLog.e(TAG, "dropTables Exception: " + e.getMessage());
 			e.printStackTrace();
+		} finally {
+			// 结束事务
+			if (null != db)
+				db.endTransaction();
+		}
+	}
+	
+	public static boolean excSQLByTransactions(SQLiteDatabase db, String[] sqls) {
+		if (null == sqls || sqls.length == 0) {
+			return false;
+		}
+		db.beginTransaction();
+		try {
+			for (String sql : sqls) {
+				if (!TextUtils.isEmpty(sql))
+					db.execSQL(sql);
+			}
+			db.setTransactionSuccessful();
+			return true;
+		} catch (Exception e) {
+			FrameworkLog.e(TAG, "excSQLByTransactions Exception: " + e.getMessage());
+			e.printStackTrace();
+			return false;
 		} finally {
 			// 结束事务
 			if (null != db)

@@ -70,6 +70,7 @@ final class SQLiteColumnInfo implements Sqlable{
 	private final Field mField;
 	private final Column mColumnToken;
 	private final PrimaryKey mPKToken;
+	private final ColumnType mColumnSQLType;
 	private SQLiteColumnInfo(Field field, Column columnToken, PrimaryKey pKToken) {
 		mField = field;
 		mColumnToken = columnToken;
@@ -83,6 +84,7 @@ final class SQLiteColumnInfo implements Sqlable{
 			mField.setAccessible(true);
 		}
 		mColumnType = val;
+		mColumnSQLType = getSQLiteType(mColumnType);
 	}
 	
 	public boolean isPrimaryKey() {
@@ -93,12 +95,16 @@ final class SQLiteColumnInfo implements Sqlable{
 		return mColumnToken.extendable();
 	}
 	
+	public boolean isAsIndex() {
+		return mColumnToken.asIndex();
+	}
+	
 	public String getColumnName() {
 		return mColumnToken.name();
 	}
 
-	public ColumnType getSQLiteType() {
-		switch (mColumnType) {
+	private static ColumnType getSQLiteType(int classType) {
+		switch (classType) {
 		case TYPE_INTEGER:
 			return ColumnType.INTEGER;
 		case TYPE_LONG:
@@ -126,7 +132,7 @@ final class SQLiteColumnInfo implements Sqlable{
 		sb.append(SEPERATOR);
 		
 		sb.append(mColumnToken.name())
-			.append(SEPERATOR).append(getSQLiteType().getSQLTypeName());
+			.append(SEPERATOR).append(mColumnSQLType.getSQLTypeName());
 		if (null != mPKToken) {
 			sb.append(SEPERATOR).append("PRIMARY KEY");
 			if (mPKToken.autoIncrement()) {

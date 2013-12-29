@@ -10,7 +10,7 @@ import com.frameworkexample.android.activity.base.BaseFragment;
 public class Fragment2 extends BaseFragment {
 
 	@Override
-	public int getLayoutResId() {
+	public int provideLayoutResId() {
 		return R.layout.activity_main;
 	}
 
@@ -28,7 +28,7 @@ public class Fragment2 extends BaseFragment {
 	}
 
 	@Override
-	protected Handler createActivityHandler() {
+	protected Handler provideActivityHandler() {
 
 		return null;
 	}
