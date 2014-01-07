@@ -80,7 +80,7 @@ public class HarmoniousImageView extends FrameLayout {
 				new int[] { android.R.attr.scaleType },
                 defStyle, 0);
 		
-		int index = a.getInt(0, -1);
+		int index = a.getInt(0, 1);
         if (index >= 0) {
             setScaleType(scaleTypeArray[index]);
         } else {
@@ -168,15 +168,21 @@ public class HarmoniousImageView extends FrameLayout {
 		setImageDrawable(getResources().getDrawable(resId));
 	}
 	
-	public void setDefaultImageResource(int resId) {
+	/**
+	 * 调用该方法不会动画显示图片
+	 */
+	public void setImageResourceDirectly(int resId) {
 		Drawable drawable = getResources().getDrawable(resId);
 		if (null == drawable) {
 			return ;
 		}
-		setDefaultImageDrawable(drawable);
+		setImageDrawableDirectly(drawable);
 	}
 	
-	public void setDefaultImageDrawable(Drawable drawable) {
+	/**
+	 * 调用该方法不会动画显示图片
+	 */
+	public void setImageDrawableDirectly(Drawable drawable) {
 		int newActiveIndex = (mCurActiveIndex + 1) % 2;
 		setImageBitmapDirectly(mImageViews[newActiveIndex], drawable);
 		clearImage(mImageViews[mCurActiveIndex]);
