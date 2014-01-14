@@ -1,4 +1,4 @@
-package com.example.drawbitmapwithalphademo;
+package org.ixming.android.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

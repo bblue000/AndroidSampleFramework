@@ -1,4 +1,4 @@
-package org.ixming.android.common.view;
+package org.ixming.android.view;
 
 import android.content.Context;
 import android.view.ViewGroup.LayoutParams;

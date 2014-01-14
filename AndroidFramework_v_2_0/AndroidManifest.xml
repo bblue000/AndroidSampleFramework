@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:debuggable="true">
         <activity
-            android:name=".activity.TestCommonTitleBarActivity"
+            android:name="com.frameworkexample.android.activity.TestCommonTitleBarActivity"
             android:label="@string/app_name" 
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
