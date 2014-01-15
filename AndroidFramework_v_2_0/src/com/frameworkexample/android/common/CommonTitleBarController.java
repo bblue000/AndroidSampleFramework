@@ -4,6 +4,13 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * 这个CommonTitleBarController是Android应用中较为普遍使用的，
+ * 顶部分为三栏，三栏都是只有文本或者图片。
+ * <p/>
+ * 如果顶部的操作过于复杂多样，可以考虑使用Android的ActionBar。
+ * @author Yin Yong
+ */
 public abstract class CommonTitleBarController implements CommonTitleBarContainer{
 
 	public static CommonTitleBarController from(View wrappedView) {
@@ -118,6 +125,13 @@ public abstract class CommonTitleBarController implements CommonTitleBarContaine
 	 * @return 方便链式处理，返回当前对象
 	 */
 	public abstract CommonTitleBarController showView(Position pos);
+	
+	/**
+	 * 隐藏相应位置的View，等同于调用hideView(Position, true)
+	 * @param pos 指定位置
+	 * @return 方便链式处理，返回当前对象
+	 */
+	public abstract CommonTitleBarController hideView(Position pos);
 	/**
 	 * 隐藏相应位置的View
 	 * @param pos 指定位置
@@ -125,4 +139,15 @@ public abstract class CommonTitleBarController implements CommonTitleBarContaine
 	 * @return 方便链式处理，返回当前对象
 	 */
 	public abstract CommonTitleBarController hideView(Position pos, boolean removeContent);
+	
+	/**
+	 * 隐藏所有，等同于调用hideAll(true)
+	 * @return 方便链式处理，返回当前对象
+	 */
+	public abstract CommonTitleBarController hideAll();
+	/**
+	 * 隐藏所有
+	 * @return 方便链式处理，返回当前对象
+	 */
+	public abstract CommonTitleBarController hideAll(boolean removeContent);
 }

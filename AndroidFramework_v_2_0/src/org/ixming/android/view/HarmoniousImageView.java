@@ -3,7 +3,6 @@ package org.ixming.android.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -59,7 +58,7 @@ public class HarmoniousImageView extends FrameLayout {
 		
 		mInAnimation = new AlphaAnimation(0.0F, 1.0F);
 		mInAnimation.setAnimationListener(mAnimListener);
-		mInAnimation.setDuration(400L);
+		mInAnimation.setDuration(600L);
 	}
 	
 	private void initAttrs(Context context, AttributeSet attrs, int defStyle) {
@@ -93,33 +92,6 @@ public class HarmoniousImageView extends FrameLayout {
 	@Override
 	protected LayoutParams generateDefaultLayoutParams() {
 		return new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-	}
-	
-	@Override
-	public void draw(Canvas canvas) {
-//		Path path = new Path();
-//		path.moveTo(0, 0);
-//		path.addRoundRect(new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight()), 5, 5, Direction.CCW);
-//		canvas.clipPath(path, Op.INTERSECT);
-		super.draw(canvas);
-	}
-	
-	@Override
-	protected void onDraw(Canvas canvas) {
-//		Path path = new Path();
-//		path.moveTo(0, 0);
-//		path.addRoundRect(new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight()), 5, 5, Direction.CCW);
-//		canvas.clipPath(path, Op.INTERSECT);
-		super.onDraw(canvas);
-	}
-	
-	@Override
-	protected void dispatchDraw(Canvas canvas) {
-//		Path path = new Path();
-//		path.moveTo(0, 0);
-//		path.addRoundRect(new RectF(0, 0, getMeasuredWidth(), getMeasuredHeight()), 5, 5, Direction.CCW);
-//		canvas.clipPath(path, Op.INTERSECT);
-		super.dispatchDraw(canvas);
 	}
 	
 	public void setScaleType(ScaleType scaleType) {
@@ -202,6 +174,9 @@ public class HarmoniousImageView extends FrameLayout {
 	public void setInAnimation(Animation anim) {
 		if (null == anim) {
 			return ;
+		}
+		if (null != mInAnimation) {
+			mInAnimation.setAnimationListener(null);
 		}
 		mInAnimation = anim;
 		mInAnimation.setAnimationListener(mAnimListener);

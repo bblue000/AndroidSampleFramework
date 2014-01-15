@@ -1,5 +1,8 @@
 package com.frameworkexample.android.activity.base;
 
+import org.ixming.android.inject.InjectConfigure;
+import org.ixming.android.inject.InjectorUtils;
+
 import com.frameworkexample.android.utils.LogUtils;
 
 import android.app.Activity;
@@ -197,7 +200,34 @@ public abstract class BaseFragment extends Fragment implements OnClickListener{
 		ensureRootViewCreated();
 		return (T) mRootView.findViewById(id);
 	}
+	
+	// utilities for injecting
+	protected void injectSelf() {
+		InjectorUtils.defaultInstance().inject(this, getRootView());
+	}
 
+	protected void injectSelf(InjectConfigure configure) {
+		InjectorUtils.instanceBuildFrom(configure).inject(this, getRootView());
+	}
+	
+	/**
+	 * @param target 需要注入的对象
+	 * @param rootView 所在的View， maybe null
+	 */
+	protected void injectTarget(Object target, View rootView) {
+		InjectorUtils.defaultInstance().inject(target, rootView);
+	}
+	
+	/**
+	 * @param target 需要注入的对象
+	 * @param rootView 所在的View，maybe null
+	 * @param configure 注入的配置，maybe null
+	 */
+	protected void injectTarget(Object target, View rootView, InjectConfigure configure) {
+		InjectorUtils.instanceBuildFrom(configure).inject(target, rootView);
+	}
+	
+	
 	// TODO >>>>>>>>>>>>>>>>>>>>>>>
 	// 设置onClick监听事件
 	/**
