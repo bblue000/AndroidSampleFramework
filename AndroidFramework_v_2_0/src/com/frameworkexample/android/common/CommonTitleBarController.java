@@ -150,4 +150,17 @@ public abstract class CommonTitleBarController implements CommonTitleBarContaine
 	 * @return 方便链式处理，返回当前对象
 	 */
 	public abstract CommonTitleBarController hideAll(boolean removeContent);
+	
+	/**
+	 * 给相应位置的控件绑定监听器
+	 * @param listener 监听器
+	 * @return 方便链式处理，返回当前对象
+	 */
+	public abstract CommonTitleBarController bindClickListener(Position pos, View.OnClickListener listener);
+	
+	/**
+	 * 移除监听器
+	 * @return 方便链式处理，返回当前对象
+	 */
+	public abstract CommonTitleBarController removeClickListener(Position pos);
 }

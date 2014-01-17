@@ -192,6 +192,21 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 		return this;
 	}
 	
+	@Override
+	public CommonTitleBarController bindClickListener(Position pos,
+			View.OnClickListener listener) {
+		TextView tv = getView(pos);
+		tv.setOnClickListener(listener);
+		return this;
+	}
+
+	@Override
+	public CommonTitleBarController removeClickListener(Position pos) {
+		TextView tv = getView(pos);
+		tv.setOnClickListener(null);
+		return this;
+	}
+	
 	private void showView(TextView tv) {
 		AndroidUtils.setViewVisibility(tv, View.VISIBLE);
 	}
