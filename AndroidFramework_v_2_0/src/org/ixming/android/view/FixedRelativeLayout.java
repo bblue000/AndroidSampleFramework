@@ -46,6 +46,7 @@ public class FixedRelativeLayout extends RelativeLayout {
 		if (mMaxWidth != MAX_UNDEFINED) {
 			if (width > mMaxWidth) {
 				width = mMaxWidth; 
+				modeWidth = MeasureSpec.EXACTLY;
 				widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, modeWidth);
 			}
 		}
@@ -55,6 +56,7 @@ public class FixedRelativeLayout extends RelativeLayout {
 		if (mMaxHeight != MAX_UNDEFINED) {
 			if (height > mMaxHeight) {
 				height = mMaxHeight; 
+				modeHeight = MeasureSpec.EXACTLY;
 				heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, modeHeight);
 			}
 		}
