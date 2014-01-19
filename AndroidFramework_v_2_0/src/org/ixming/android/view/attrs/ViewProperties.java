@@ -52,6 +52,8 @@ public class ViewProperties {
 	}
 	
 	public static int getAsInt(float val) {
-		return (int) (val + 0.5F);
+		int symbol = (int) Math.signum(val);
+		int absVal = (int) (Math.abs(val) + 0.5F);
+		return absVal * symbol;
 	}
 }
