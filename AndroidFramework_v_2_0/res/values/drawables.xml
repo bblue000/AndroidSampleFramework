@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- common color -->
+    <drawable name="white">#FFFFFFFF</drawable>
+    <drawable name="black">#FF000000</drawable>
+    <drawable name="gray">#FFDDDDDD</drawable>
+    <drawable name="black_alpha44">#44000000</drawable>
+    
+    <drawable name="color_88888888">#88888888</drawable>
+    
+</resources>

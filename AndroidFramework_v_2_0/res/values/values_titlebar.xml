@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ids for title bar -->
-    <item type="id" name="common_titlebar"/>
-    <!-- 第一种形式，即中间显示当前页，两边各有一个预留控制位 -->
-    <item type="id" name="common_titlebar_center"/>
-    <item type="id" name="common_titlebar_left"/>
-    <item type="id" name="common_titlebar_right"/>
-    
     
     <!-- dimens for title bar -->
     <dimen name="titlebar_container_hpadding">0dip</dimen>
@@ -26,4 +19,6 @@
     <!-- colors for title bar -->
     <color name="titlebar_center_textcolor">#FFFFFFFF</color>
     <color name="titlebar_sides_textcolor">#FFFFFFFF</color>
+    
+    <drawable name="common_titlebar_bg">#FF456789</drawable>
 </resources>

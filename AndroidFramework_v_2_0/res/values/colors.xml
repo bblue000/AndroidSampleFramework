@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- common color -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="gray">#FFDDDDDD</color>
+    <color name="transparent">#00000000</color>
+    <color name="black_alpha44">#44000000</color>
+    
+    <color name="color_88888888">#88888888</color>
+    
+    <!-- 通用的根布局背景颜色 -->
+    <color name="rootlayout_bg">#FF000000</color>
+    <!-- 通用的bar颜色，比如tab，scroll bar，title bar等 -->
+    <color name="basebar_bg">#FF35B886</color>
+    
+    
+</resources>

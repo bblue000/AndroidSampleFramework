@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- ids for title bar -->
+    <item type="id" name="common_titlebar"/>
+    <!-- 第一种形式，即中间显示当前页，两边各有一个预留控制位 -->
+    <item type="id" name="common_titlebar_center"/>
+    <item type="id" name="common_titlebar_left"/>
+    <item type="id" name="common_titlebar_right"/>
+    
+    
+</resources>
