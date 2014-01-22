@@ -28,7 +28,6 @@ public class AndroidUtils {
 	// 获取系统、机器相关的信息
 	/**
 	 * 获取sdk版本
-	 * @return
 	 */
 	public static int getAndroidSDKVersion() {
 		return android.os.Build.VERSION.SDK_INT;
@@ -58,6 +57,21 @@ public class AndroidUtils {
 		return displayHeight;
 	}
 	
+	/**
+	 * 获取客户端的分辨率
+	 */
+	public static String getDeviceResolution(Context context) {
+		return getDeviceResolution(context, "x");
+	}
+	/**
+	 * 获取客户端的分辨率
+	 * @param linkMark 连接符，{@link #getDeviceResolution(Context)} 使用的是“x”
+	 */
+	public static String getDeviceResolution(Context context, String linkMark) {
+		int width = getDisplayWidth(context);
+		int height = getDisplayHeight(context);
+		return String.format("%d%s%d", width, linkMark, height);
+	}
 	
 	// >>>>>>>>>>>>>>>>>>>
 	// 获取应用程序相关的信息
@@ -100,8 +114,11 @@ public class AndroidUtils {
 		
 	/**
 	 * 获得设备识别认证码
-	 * 
-	 * @return
+	 * <p/>
+	 * 需要权限：android.permission.READ_PHONE_STATE
+	 * @return the unique device ID, 
+	 * for example, the IMEI for GSM and the MEID or ESN for CDMA phones. 
+	 * Return null if device ID is not available. 
 	 */
 	public static String getIMEI(Context context) {
 		TelephonyManager tm = (TelephonyManager) context

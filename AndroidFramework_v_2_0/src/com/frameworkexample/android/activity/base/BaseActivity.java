@@ -87,8 +87,7 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	 * 
 	 * @param rootView
 	 */
-	void prepareInitView(View rootView) {
-	};
+	void prepareInitView(View rootView) { };
 
 	/**
 	 * called before {@link #initData(View, android.os.Bundle)} while
@@ -113,8 +112,7 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	 * 
 	 * @param rootView
 	 */
-	void prepareInitData(View rootView, Bundle savedInstanceState) {
-	};
+	void prepareInitData(View rootView, Bundle savedInstanceState) { };
 
 	/**
 	 * called immediately after {@link #initView(View)} while
@@ -151,8 +149,22 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	}
 	
 	// utilities for injecting
+	/**
+	 * used by {@link #injectSelf()};
+	 * <p/>
+	 * default return null.
+	 */
+	protected InjectConfigure provideActivityInjectConfigure() {
+		return null;
+	}
+	
 	protected void injectSelf() {
-		InjectorUtils.defaultInstance().inject(this);
+		InjectConfigure provided = provideActivityInjectConfigure();
+		if (null != provided) {
+			injectSelf(provided);
+		} else {
+			InjectorUtils.defaultInstance().inject(this);
+		}
 	}
 
 	protected void injectSelf(InjectConfigure configure) {

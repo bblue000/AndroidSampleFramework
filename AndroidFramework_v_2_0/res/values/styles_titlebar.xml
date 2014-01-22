@@ -7,7 +7,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/titlebar_height</item>
         <item name="android:layout_alignParentTop">true</item>
-        <item name="android:background">@drawable/common_titlebar_bg</item>
+        <item name="android:background">@drawable/titlebar_bg</item>
         <item name="android:paddingLeft">@dimen/titlebar_container_hpadding</item>
         <item name="android:paddingRight">@dimen/titlebar_container_hpadding</item>
         <item name="android:paddingTop">@dimen/titlebar_container_vpadding</item>

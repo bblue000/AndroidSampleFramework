@@ -3,10 +3,13 @@
     <!-- common color -->
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
-    <color name="gray">#FFDDDDDD</color>
     <color name="transparent">#00000000</color>
+	<color name="gray">#FF888888</color>
+    <color name="dark_gray">#FF444444</color>
+    <color name="light_gray">#FFCCCCCC</color>
+
+    <!-- useful testing colors -->
     <color name="black_alpha44">#44000000</color>
-    
     <color name="color_88888888">#88888888</color>
     
     <!-- 通用的根布局背景颜色 -->
