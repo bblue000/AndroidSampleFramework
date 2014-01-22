@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 这个文件夹中包含APP中的一些风格样式，比如通用的/专用的Activity的样式，Dialog的样式等等 -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppTheme" parent="@android:style/Theme"/>
+    
+    <style name="AppTheme.Activity">
+        <item name="android:windowBackground">@drawable/common_transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <!-- theme for launcher activity -->
+    <style name="AppTheme.Activity.Launcher">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+    
+    
+    
+    
+</resources>

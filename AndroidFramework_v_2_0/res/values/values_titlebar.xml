@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	all values—— ids, dimens, colors, drawables, i.e.
+	for common title bar
+ -->
 <resources>
     <!-- ids for title bar -->
     <item type="id" name="common_titlebar"/>
@@ -9,21 +13,23 @@
     
     
     <!-- dimens for title bar -->
-    <dimen name="titlebar_container_hpadding">0dip</dimen>
-    <dimen name="titlebar_container_vpadding">0dip</dimen>
-    <dimen name="titlebar_height">50dip</dimen>
-    <dimen name="titlebar_left_width">50dip</dimen>
-    <dimen name="titlebar_left_height">50dip</dimen>
-    <dimen name="titlebar_right_width">50dip</dimen>
-    <dimen name="titlebar_right_height">50dip</dimen>
-    <dimen name="titlebar_side_margin">5dip</dimen>
-    <dimen name="titlebar_center_hmargin">5dip</dimen>
+    <dimen name="titlebar_container_hpadding">0dp</dimen>
+    <dimen name="titlebar_container_vpadding">0dp</dimen>
+    <dimen name="titlebar_height">50dp</dimen>
+    <dimen name="titlebar_left_width">50dp</dimen>
+    <dimen name="titlebar_left_height">50dp</dimen>
+    <dimen name="titlebar_right_width">50dp</dimen>
+    <dimen name="titlebar_right_height">50dp</dimen>
+    <dimen name="titlebar_side_margin">5dp</dimen>
+    <dimen name="titlebar_center_hmargin">5dp</dimen>
     
     <dimen name="titlebar_center_textsize">18sp</dimen>
     <dimen name="titlebar_sides_textsize">14sp</dimen>
-    <dimen name="titlebar_sides_drawable_padding">5dip</dimen>
+    <dimen name="titlebar_sides_drawable_padding">5dp</dimen>
     
     <!-- colors for title bar -->
     <color name="titlebar_center_textcolor">#FFFFFFFF</color>
     <color name="titlebar_sides_textcolor">#FFFFFFFF</color>
+    
+    <drawable name="titlebar_bg">#FF456789</drawable>
 </resources>

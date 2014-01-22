@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!-- 中间显示当前界面主题 -->
 <!-- 左右两边各有一个控制按钮，可显示可隐藏（可以再定制） -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

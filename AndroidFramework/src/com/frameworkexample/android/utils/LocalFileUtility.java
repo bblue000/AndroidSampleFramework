@@ -26,17 +26,13 @@ public class LocalFileUtility {
 	public static String getFilePath(Context context, String paramPath) {
 		String packageName = "/." + context.getPackageName();
 		paramPath = packageName + paramPath;
-		String filepath = context.getCacheDir().getPath() + paramPath;
-		if (android.os.Build.VERSION.SDK_INT < 8) {
-			if (isSDCardAvaliable()) {
-				filepath = Environment.getExternalStorageDirectory()
-						+ paramPath;
-			}
+		String filepath;
+		if (isSDCardAvaliable()) {
+			filepath = Environment.getExternalStorageDirectory()
+					+ paramPath;
 		} else {
-			if (isSDCardAvaliable()) {
-				filepath = context.getCacheDir().getAbsolutePath()
-						+ paramPath;
-			}
+			filepath = context.getCacheDir().getAbsolutePath()
+					+ paramPath;
 		}
 		return filepath;
 	}
