@@ -1,5 +1,11 @@
 package org.ixming.android.view.attrs;
 
+/**
+ * 用于Scroll的工具类，能够计算两次 {@link #setCurrent(float, float)} 或者 
+ * {@link #setDown(float, float)} 和最近一次 {@link #setCurrent(float, float)} 之间的距离。
+ * @author Yin Yong
+ * @version 1.0
+ */
 public final class FloatRoute {
 	private float downX;
 	private float downY;
@@ -9,6 +15,8 @@ public final class FloatRoute {
 	
 	private float currentX;
 	private float currentY;
+	
+	public FloatRoute() { }
 	
 	/**
 	 * 设置手势开始时（或者使用处想要作为初始值的地方）

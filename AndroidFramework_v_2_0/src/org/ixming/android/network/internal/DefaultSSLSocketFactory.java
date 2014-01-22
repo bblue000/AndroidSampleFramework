@@ -18,6 +18,12 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.ixming.android.utils.FrameworkLog;
 
+/**
+ * 默认的、通用的SSLSocketFactory，用于网络请求中参数设置。
+ * 
+ * @author Yin Yong
+ * @version 1.0
+ */
 public class DefaultSSLSocketFactory extends SSLSocketFactory {
 	final String TAG = DefaultSSLSocketFactory.class.getSimpleName();
 	SSLContext sslContext = null;

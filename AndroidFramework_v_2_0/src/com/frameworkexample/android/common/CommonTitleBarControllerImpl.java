@@ -2,7 +2,7 @@ package com.frameworkexample.android.common;
 
 import org.ixming.android.inject.InjectorUtils;
 import org.ixming.android.inject.annotation.ViewInject;
-import org.ixming.android.utils.AndroidUtils;
+import org.ixming.android.view.ViewUtils;
 
 import com.frameworkexample.android.R;
 
@@ -208,11 +208,11 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 	
 	private void showView(TextView tv) {
-		AndroidUtils.setViewVisibility(tv, View.VISIBLE);
+		ViewUtils.setViewVisibility(tv, View.VISIBLE);
 	}
 	
 	private void hideView(TextView tv, boolean removeContent) {
-		AndroidUtils.setViewVisibility(tv, View.INVISIBLE);
+		ViewUtils.setViewVisibility(tv, View.INVISIBLE);
 		if (removeContent) {
 			clearContent(tv);
 		}

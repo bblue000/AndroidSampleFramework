@@ -85,8 +85,9 @@ public final class FloatRect {
     }
     
     public boolean contains(float x, float y) {
-    	return left < right && top < bottom  // check for empty first
-                && x >= left && x <= right && y >= top && y <= bottom;
+    	return this.left < this.right && this.top < this.bottom  // check for empty first
+    			&& this.left <= x && this.top <= y
+				&& this.right >= x && this.bottom >= y;
     }
     
     public boolean contains(FloatRect rect) {
@@ -98,8 +99,7 @@ public final class FloatRect {
     }
     
 	public boolean contains(float left, float top, float right, float bottom) {
-		// check for empty first
-		return this.left < this.right && this.top < this.bottom
+		return this.left < this.right && this.top < this.bottom // check for empty first
 				// now check for containment
 				&& this.left <= left && this.top <= top
 				&& this.right >= right && this.bottom >= bottom;
@@ -114,8 +114,7 @@ public final class FloatRect {
     }
     
     public boolean intersects(float left, float top, float right, float bottom) {
-    	// check for empty first
-    	return this.left < this.right && this.top < this.bottom
+    	return this.left < this.right && this.top < this.bottom // check for empty first
     			// now check for containment
     			&& this.left <= right && left <= this.right
     			&& this.top <= bottom && top <= this.bottom;

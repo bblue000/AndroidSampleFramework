@@ -27,7 +27,7 @@ public final class IVProperties extends ViewProperties {
 	
 	public float getViewVsDrawableScale() {
 		if (!hasImage()) {
-			return 1/0F;
+			return 1.0F;
 		}
 		float scaleX = getTrueHorizontalSpace() / getImageWidth();
 		float scaleY = getTrueVerticalSpace() / getImageHeight();

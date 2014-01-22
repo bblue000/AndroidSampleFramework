@@ -46,6 +46,7 @@ public class FixedRelativeLayout extends RelativeLayout {
 		if (mMaxWidth != MAX_UNDEFINED) {
 			if (width > mMaxWidth) {
 				width = mMaxWidth; 
+				//TODO 一些情况下，原先的值不是EXACTLY，如果是AT_MOST，子View的显示就不会跟期望中一致
 				modeWidth = MeasureSpec.EXACTLY;
 				widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, modeWidth);
 			}
@@ -56,6 +57,7 @@ public class FixedRelativeLayout extends RelativeLayout {
 		if (mMaxHeight != MAX_UNDEFINED) {
 			if (height > mMaxHeight) {
 				height = mMaxHeight; 
+				//TODO 一些情况下，原先的值不是EXACTLY，如果是AT_MOST，子View的显示就不会跟期望中一致
 				modeHeight = MeasureSpec.EXACTLY;
 				heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, modeHeight);
 			}
@@ -65,20 +67,29 @@ public class FixedRelativeLayout extends RelativeLayout {
 	
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		int left = getPaddingLeft();
+		int top = getPaddingLeft();
+		int right = getPaddingLeft();
+		int bottom = getPaddingLeft();
+		
 		int layoutWidth = r - l;
 		if (mMaxWidth != MAX_UNDEFINED) {
 			if (layoutWidth > mMaxWidth) {
 				r -= (layoutWidth - mMaxWidth); 
+				layoutWidth = mMaxWidth;
 			}
 		}
+		right = Math.max(left, layoutWidth - getPaddingRight());
 		
 		int layoutHeight = b - t;
 		if (mMaxHeight != MAX_UNDEFINED) {
 			if (layoutHeight > mMaxHeight) {
 				b -= (layoutHeight - mMaxHeight); 
+				layoutHeight = mMaxHeight;
 			}
 		}
-		super.onLayout(changed, l, t, r, b);
+		bottom = Math.max(left, layoutHeight - getPaddingBottom());
+		super.onLayout(changed, left, top, right, bottom);
 	}
 	
 	/**
@@ -86,7 +97,7 @@ public class FixedRelativeLayout extends RelativeLayout {
 	 * @added 1.0
 	 */
 	public void setMaxHeight(int height) {
-		if (height < 0) {
+		if (height <= 0) {
 			mMaxHeight = MAX_UNDEFINED;
 		} else {
 			mMaxHeight = height;
@@ -107,7 +118,7 @@ public class FixedRelativeLayout extends RelativeLayout {
 	 * @added 1.0
 	 */
 	public void setMaxWidth(int width) {
-		if (width < 0) {
+		if (width <= 0) {
 			mMaxWidth = MAX_UNDEFINED;
 		} else {
 			mMaxWidth = width;

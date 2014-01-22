@@ -1,5 +1,7 @@
 package org.ixming.android.view;
 
+import org.ixming.android.view.attrs.ViewProperties;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,8 +16,10 @@ import android.view.ViewGroup;
  */
 public class FilledInContainer extends ViewGroup {
 	
+	private ViewProperties mViewProperties;
 	public FilledInContainer(Context context) {
 		super(context);
+		initFilledInContainer();
 	}
 	
 	public FilledInContainer(Context context, AttributeSet attrs) {
@@ -25,28 +29,32 @@ public class FilledInContainer extends ViewGroup {
 	public FilledInContainer(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
+		initFilledInContainer();
+	}
+	
+	private void initFilledInContainer() {
+		mViewProperties = new ViewProperties(this);
+	}
+	
+	protected ViewProperties getViewProperties() {
+		return mViewProperties;
 	}
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		int width = getMeasuredWidth();
-		int height = getMeasuredHeight();
+		int childWidth = ViewProperties.getAsInt(mViewProperties.getTrueHorizontalSpace());
+		int childHeight = ViewProperties.getAsInt(mViewProperties.getTrueVerticalSpace());
 		
-		int paddingLeft = getPaddingLeft();
-		int paddingTop = getPaddingTop();
-		int paddingRight = getPaddingRight();
-		int paddingBottom = getPaddingBottom();
-		
-		int count = getChildCount();
+		final int count = getChildCount();
 		for (int i = 0; i < count; i++) {
 			View child = getChildAt(i);
 			if (child.getVisibility() != GONE) {
 				LayoutParams lp = child.getLayoutParams();
 				// change the pre-set parameters, no matter what is set previously,
 				// we'd consider it filled in its parent
-				lp.width = width - paddingLeft - paddingRight;
-				lp.height = height - paddingTop - paddingBottom;
+				lp.width = childWidth;
+				lp.height = childHeight;
 				measureChild(child, widthMeasureSpec, heightMeasureSpec);
 			}
 		}
@@ -54,19 +62,16 @@ public class FilledInContainer extends ViewGroup {
 	
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		int count = getChildCount();
-		int width = getMeasuredWidth();
-		int height = getMeasuredHeight();
+		int left = getPaddingLeft();
+		int top = getPaddingTop();
+		int right = ViewProperties.getAsInt(mViewProperties.getWidth()) - getPaddingRight();
+		int bottom = ViewProperties.getAsInt(mViewProperties.getHeight()) - getPaddingBottom();
 		
-		int paddingLeft = getPaddingLeft();
-		int paddingTop = getPaddingTop();
-		int paddingRight = getPaddingRight();
-		int paddingBottom = getPaddingBottom();
+		final int count = getChildCount();
 		for (int i = 0; i < count; i++) {
 			View child = getChildAt(i);
 			if (child.getVisibility() != GONE) {
-				child.layout(paddingLeft, paddingTop,
-						width - paddingRight, height - paddingBottom);
+				child.layout(left, top, right, bottom);
 			}
 		}
 	}

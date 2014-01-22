@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.view.WindowManager;
 import android.webkit.URLUtil;
 
@@ -124,7 +123,7 @@ public class AndroidUtils {
 		// 系统打电话界面：
 		Intent intent = new Intent();
 		//系统默认的action，用来打开默认的电话界面
-		intent.setAction(Intent.ACTION_CALL);
+		intent.setAction(Intent.ACTION_DIAL);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		//需要拨打的号码
 		intent.setData(Uri.parse("tel:" + number));
@@ -187,17 +186,6 @@ public class AndroidUtils {
 	
 	// >>>>>>>>>>>>>>>>>>>
 	// 一些常用的方法封装及汇总
-	public static void setViewVisibility(View view, int visibility) {
-		
-		if (null == view) {
-			return;
-		}
-		
-		if (view.getVisibility() != visibility) {
-			view.setVisibility(visibility);
-		}
-	}
-	
 	public static boolean isMainThread() {
 		return Looper.myLooper() == Looper.getMainLooper();
 	}

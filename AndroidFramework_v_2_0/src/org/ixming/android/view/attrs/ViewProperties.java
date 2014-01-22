@@ -3,17 +3,29 @@ package org.ixming.android.view.attrs;
 
 import android.view.View;
 
+/**
+ * Utility for getting some properties of the view in the framework
+ * @author Yin Yong
+ * @version 1.0
+ */
 public class ViewProperties {
 	private View mView;
-	private FloatRect mChildBounds;
+	private FloatRect mChildDrawingBounds;
+	private FloatRect mChildDrawingBoundsoffsetPadding;
 	public ViewProperties(View iv) {
 		mView = iv;
 	}
 	
+	/**
+	 * @return getMeasuredWidth
+	 */
 	public float getWidth() {
 		return mView.getMeasuredWidth();
 	}
 
+	/**
+	 * @return getMeasuredHeight
+	 */
 	public float getHeight() {
 		return mView.getMeasuredHeight();
 	}
@@ -42,15 +54,35 @@ public class ViewProperties {
 		return getHeight() - getVerticalPadding();
 	}
 	
-	public FloatRect getChildBounds() {
-		if (null == mChildBounds) {
-			mChildBounds = new FloatRect();
+	public FloatRect getChildDrawingBounds() {
+		if (null == mChildDrawingBounds) {
+			mChildDrawingBounds = new FloatRect();
 		}
-		mChildBounds.set(mView.getPaddingLeft(), mView.getPaddingTop(),
+		mChildDrawingBounds.set(mView.getPaddingLeft(), mView.getPaddingTop(),
 				getWidth() - mView.getPaddingRight(), getHeight() - mView.getPaddingBottom());
-		return mChildBounds;
+		return mChildDrawingBounds;
 	}
 	
+	public FloatRect getChildDrawingBoundsoffsetPadding() {
+		if (null == mChildDrawingBoundsoffsetPadding) {
+			mChildDrawingBoundsoffsetPadding = new FloatRect();
+		}
+		mChildDrawingBoundsoffsetPadding.set(0, 0, getTrueHorizontalSpace(), getTrueVerticalSpace());
+		return mChildDrawingBoundsoffsetPadding;
+	}
+	
+	/**
+	 * utility for getting value as {@code int}
+	 * <p/>
+	 * <ul>
+	 * 	<li>getAsInt(0.0) = 0.0</li>
+	 * 	<li>getAsInt(+infinity) = +(int) (Math.abs(val) + 0.5F)</li>
+	 * 	<li>getAsInt(-infinity) = -(int) (Math.abs(val) + 0.5F)</li>
+	 * 	<li>getAsInt(NaN) = NaN</li>
+	 * </ul>
+	 * @param val float value
+	 * @return int value
+	 */
 	public static int getAsInt(float val) {
 		int symbol = (int) Math.signum(val);
 		int absVal = (int) (Math.abs(val) + 0.5F);
