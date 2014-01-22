@@ -18,6 +18,18 @@ public class ViewUtils {
 		}
 	}
 	
+	public static void setViewVisible(View view) {
+		setViewVisibility(view, View.VISIBLE);
+	}
+	
+	public static void setViewInvisible(View view) {
+		setViewVisibility(view, View.INVISIBLE);
+	}
+	
+	public static void setViewGone(View view) {
+		setViewVisibility(view, View.GONE);
+	}
+	
 	public static RelativeLayout newTransparentRelativeLayout(Context context) {
 		RelativeLayout layout = new RelativeLayout(context);
 		layout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,

@@ -41,7 +41,11 @@ public class FixedRelativeLayout extends RelativeLayout {
 	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		int width = MeasureSpec.getSize(widthMeasureSpec);
+		// 1.根据原先的测量
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		// 2.再根据测量结果对比，是否超过最大高度
+		boolean measureChanged = false;
+		int width = getMeasuredWidth();
 		int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
 		if (mMaxWidth != MAX_UNDEFINED) {
 			if (width > mMaxWidth) {
@@ -49,10 +53,11 @@ public class FixedRelativeLayout extends RelativeLayout {
 				//TODO 一些情况下，原先的值不是EXACTLY，如果是AT_MOST，子View的显示就不会跟期望中一致
 				modeWidth = MeasureSpec.EXACTLY;
 				widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, modeWidth);
+				measureChanged = true;
 			}
 		}
 		
-		int height = MeasureSpec.getSize(heightMeasureSpec);
+		int height = getMeasuredHeight();
 		int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
 		if (mMaxHeight != MAX_UNDEFINED) {
 			if (height > mMaxHeight) {
@@ -60,35 +65,35 @@ public class FixedRelativeLayout extends RelativeLayout {
 				//TODO 一些情况下，原先的值不是EXACTLY，如果是AT_MOST，子View的显示就不会跟期望中一致
 				modeHeight = MeasureSpec.EXACTLY;
 				heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, modeHeight);
+				measureChanged = true;
 			}
 		}
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		// 3.如果改变了，重新测量
+		if (measureChanged) {
+			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		}
 	}
 	
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		// 计算Rect bounds
 		int left = getPaddingLeft();
-		int top = getPaddingLeft();
-		int right = getPaddingLeft();
-		int bottom = getPaddingLeft();
+		int top = getPaddingTop();
+		int right = left;
+		int bottom = top;
 		
 		int layoutWidth = r - l;
 		if (mMaxWidth != MAX_UNDEFINED) {
-			if (layoutWidth > mMaxWidth) {
-				r -= (layoutWidth - mMaxWidth); 
-				layoutWidth = mMaxWidth;
-			}
+			layoutWidth = Math.min(layoutWidth, mMaxWidth);
 		}
 		right = Math.max(left, layoutWidth - getPaddingRight());
 		
 		int layoutHeight = b - t;
 		if (mMaxHeight != MAX_UNDEFINED) {
-			if (layoutHeight > mMaxHeight) {
-				b -= (layoutHeight - mMaxHeight); 
-				layoutHeight = mMaxHeight;
-			}
+			layoutHeight = Math.min(layoutHeight, mMaxHeight);
 		}
-		bottom = Math.max(left, layoutHeight - getPaddingBottom());
+		bottom = Math.max(top, layoutHeight - getPaddingBottom());
+		// layout children
 		super.onLayout(changed, left, top, right, bottom);
 	}
 	
@@ -103,6 +108,7 @@ public class FixedRelativeLayout extends RelativeLayout {
 			mMaxHeight = height;
 		}
 		requestLayout();
+		invalidate();
 	}
 	
 	/**
@@ -124,6 +130,7 @@ public class FixedRelativeLayout extends RelativeLayout {
 			mMaxWidth = width;
 		}
 		requestLayout();
+		invalidate();
 	}
 	
 	/**
