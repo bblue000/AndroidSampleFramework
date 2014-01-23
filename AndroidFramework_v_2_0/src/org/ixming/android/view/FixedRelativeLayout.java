@@ -81,7 +81,8 @@ public class FixedRelativeLayout extends RelativeLayout {
 		int top = getPaddingTop();
 		int right = left;
 		int bottom = top;
-		
+
+		//TODO ensure again
 		int layoutWidth = r - l;
 		if (mMaxWidth != MAX_UNDEFINED) {
 			layoutWidth = Math.min(layoutWidth, mMaxWidth);

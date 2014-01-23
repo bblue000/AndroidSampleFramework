@@ -202,8 +202,21 @@ public abstract class BaseFragment extends Fragment implements OnClickListener{
 	}
 	
 	// utilities for injecting
+	/**
+	 * used by {@link #injectSelf()};
+	 * <p/>
+	 * default return null.
+	 */
+	protected InjectConfigure provideActivityInjectConfigure() {
+		return null;
+	}
 	protected void injectSelf() {
-		InjectorUtils.defaultInstance().inject(this, getRootView());
+		InjectConfigure provided = provideActivityInjectConfigure();
+		if (null != provided) {
+			injectSelf(provided);
+		} else {
+			InjectorUtils.defaultInstance().inject(this, getRootView());
+		}
 	}
 
 	protected void injectSelf(InjectConfigure configure) {

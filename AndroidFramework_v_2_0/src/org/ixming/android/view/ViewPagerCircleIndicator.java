@@ -14,7 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class CircleIndicator extends View {
+public class ViewPagerCircleIndicator extends View {
 
 	private static final int DEFAULT_DIAMETER = 10; // dip
 	private static final int DEFAULT_GAP = 10; // dip
@@ -41,16 +41,16 @@ public class CircleIndicator extends View {
 	private float mPositionOffsetRatio;
 	
 	
-	public CircleIndicator(Context context) {
+	public ViewPagerCircleIndicator(Context context) {
 		super(context);
 		init();
 	}
 
-	public CircleIndicator(Context context, AttributeSet attrs) {
+	public ViewPagerCircleIndicator(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public CircleIndicator(Context context, AttributeSet attrs, int defStyle) {
+	public ViewPagerCircleIndicator(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init();
 	}

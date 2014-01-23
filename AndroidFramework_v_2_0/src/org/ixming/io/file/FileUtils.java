@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.ixming.io.IOConstants;
 import org.ixming.utils.NumberUtils;
 import org.ixming.utils.StringUtils;
 
@@ -125,7 +126,7 @@ public class FileUtils {
             }
             FileOutputStream out = new FileOutputStream(destFile);
             try {
-                byte[] buffer = new byte[4096];
+                byte[] buffer = new byte[IOConstants.FILE_OUTPUT_BUFFER_SIZE];
                 int bytesRead;
                 while ((bytesRead = inputStream.read(buffer)) >= 0) {
                     out.write(buffer, 0, bytesRead);

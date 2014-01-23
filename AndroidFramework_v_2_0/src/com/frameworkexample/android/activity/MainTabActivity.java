@@ -28,9 +28,9 @@ public class MainTabActivity extends BaseFragmentTabActivity {
 			// 设置Tab的名称
 			.setMainTabLabels(R.string.menu_settings, R.string.menu_settings, R.string.menu_settings)
 			// 设置Tab的图标
-			.setMainTabIcons(R.drawable.activity_maintab_item_iconselector,
-					R.drawable.activity_maintab_item_iconselector,
-					R.drawable.activity_maintab_item_iconselector)
+			.setMainTabIcons(R.drawable.maintab_item_iconselector,
+					R.drawable.maintab_item_iconselector,
+					R.drawable.maintab_item_iconselector)
 			// 设置Tab的选中后显示的Fragment
 			.setMainTabViewIds(R.id.fg1, R.id.fg2, R.id.fg3);
 	}

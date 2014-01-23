@@ -140,6 +140,51 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 		tv.setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
 		return this;
 	}
+	
+
+	@Override
+	public CommonTitleBarController setTextAndBackground(Position pos,
+			int textRes, int bg) {
+		TextView tv = getView(pos);
+		showView(tv);
+		removeSideDrawables(tv);
+		tv.setText(textRes);
+		tv.setBackgroundResource(bg);
+		return this;
+	}
+
+	@Override
+	public CommonTitleBarController setTextAndBackground(Position pos,
+			int textRes, Drawable bg) {
+		TextView tv = getView(pos);
+		showView(tv);
+		removeSideDrawables(tv);
+		tv.setText(textRes);
+		tv.setBackgroundDrawable(bg);
+		return this;
+	}
+
+	@Override
+	public CommonTitleBarController setTextAndBackground(Position pos,
+			String text, int bg) {
+		TextView tv = getView(pos);
+		showView(tv);
+		removeSideDrawables(tv);
+		tv.setText(text);
+		tv.setBackgroundResource(bg);
+		return this;
+	}
+
+	@Override
+	public CommonTitleBarController setTextAndBackground(Position pos,
+			String text, Drawable bg) {
+		TextView tv = getView(pos);
+		showView(tv);
+		removeSideDrawables(tv);
+		tv.setText(text);
+		tv.setBackgroundDrawable(bg);
+		return this;
+	}
 
 	@Override
 	public TextView getView(Position pos) {
@@ -208,11 +253,11 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 	
 	private void showView(TextView tv) {
-		ViewUtils.setViewVisibility(tv, View.VISIBLE);
+		ViewUtils.setViewVisible(tv);
 	}
 	
 	private void hideView(TextView tv, boolean removeContent) {
-		ViewUtils.setViewVisibility(tv, View.INVISIBLE);
+		ViewUtils.setViewInvisible(tv);
 		if (removeContent) {
 			clearContent(tv);
 		}
@@ -229,7 +274,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 	
 	private void removeBackground(TextView tv) {
-		tv.setBackgroundResource(0);
+		tv.setBackgroundDrawable(null);
 	}
 	
 	private void removeSideDrawables(TextView tv) {

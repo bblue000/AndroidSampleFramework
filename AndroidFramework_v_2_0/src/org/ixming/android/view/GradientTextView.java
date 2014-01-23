@@ -23,20 +23,20 @@ public class GradientTextView extends TextView {
 	private boolean mIsForegroundShaderSet = false;
 	public GradientTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init();
+		initGradientTextView();
 	}
 
 	public GradientTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
+		initGradientTextView();
 	}
 
 	public GradientTextView(Context context) {
 		super(context);
-		init();
+		initGradientTextView();
 	}
 
-	private void init() {
+	private void initGradientTextView() {
 		
 	}
 	

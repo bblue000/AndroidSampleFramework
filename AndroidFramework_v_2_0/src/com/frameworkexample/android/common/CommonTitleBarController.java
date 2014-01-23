@@ -110,6 +110,39 @@ public abstract class CommonTitleBarController implements CommonTitleBarContaine
 	public abstract CommonTitleBarController setTextAndIcon(Position pos, int textRes,
 			int left, int top, int right, int bottom);
 	
+	/**
+	 * 设置文本和背景
+	 * @param pos 为哪个位置设置，可以使用{@link Position} 指定
+	 * @param textRes 提供设置的文本
+	 * @param bg 提供设置的背景
+	 * @return 方便链式处理，返回当前对象
+	 */
+	public abstract CommonTitleBarController setTextAndBackground(Position pos, int textRes, int bg);
+	/**
+	 * 设置文本和背景
+	 * @param pos 为哪个位置设置，可以使用{@link Position} 指定
+	 * @param textRes 提供设置的文本
+	 * @param bg 提供设置的文本
+	 * @return 方便链式处理，返回当前对象
+	 */
+	public abstract CommonTitleBarController setTextAndBackground(Position pos, int textRes, Drawable bg);
+	/**
+	 * 设置文本和背景
+	 * @param pos 为哪个位置设置，可以使用{@link Position} 指定
+	 * @param text 提供设置的文本
+	 * @param bg 提供设置的背景
+	 * @return 方便链式处理，返回当前对象
+	 */
+	public abstract CommonTitleBarController setTextAndBackground(Position pos, String text, int bg);
+	/**
+	 * 设置文本和背景
+	 * @param pos 为哪个位置设置，可以使用{@link Position} 指定
+	 * @param textRes 提供设置的文本
+	 * @param bg 提供设置的文本
+	 * @return 方便链式处理，返回当前对象
+	 */
+	public abstract CommonTitleBarController setTextAndBackground(Position pos, String text, Drawable bg);
+	
 	//TODO 获取View
 	/**
 	 * 根据Position指定的位置获取相应的TextView
@@ -151,6 +184,7 @@ public abstract class CommonTitleBarController implements CommonTitleBarContaine
 	 */
 	public abstract CommonTitleBarController hideAll(boolean removeContent);
 	
+	//TODO click listener
 	/**
 	 * 给相应位置的控件绑定监听器
 	 * @param listener 监听器

@@ -37,7 +37,7 @@ public class IOUtils {
 		FileOutputStream out = null;
 		try {
 			out = new FileOutputStream(file, append);
-			byte[] buf = new byte[512];
+			byte[] buf = new byte[IOConstants.FILE_OUTPUT_BUFFER_SIZE];
 			int len = -1;
 			while (-1 != (len = in.read(buf))) {
 				out.write(buf, 0, len);

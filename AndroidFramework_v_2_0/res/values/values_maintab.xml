@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- dimens for main tab -->
+    <dimen name="maintab_height">50dip</dimen>
+    <dimen name="maintab_item_textsize">12sp</dimen>
+    <dimen name="maintab_item_padding">5dip</dimen>
+    
+    
+    <!-- colors for main tab -->
+    <color name="maintab_item_textcolor_normal">#FFA1A1A1</color>
+    <color name="maintab_item_textcolor_pressed">#FFFFFFFF</color>
+    
+    <!-- drawables for main tab -->
+    <drawable name="maintab_bg">#FF000000</drawable>
+    <drawable name="maintab_item_bg_normal">#FF2B2B2B</drawable>
+    <drawable name="maintab_item_bg_pressed">#FF35B886</drawable>
+    
+    
+    <!-- styles for main tab -->
+    <style name="MainTab"/>
+    <style name="MainTab.TabWidget">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/maintab_height</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:background">@drawable/maintab_bg</item>
+    </style>
+    <style name="MainTab.Item"/>
+    <style name="MainTab.Item.Container">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:paddingTop">@dimen/maintab_item_padding</item>
+        <item name="android:background">@drawable/maintab_bg</item>
+    </style>
+    <style name="MainTab.Item.View">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/maintab_item_padding</item>
+        <item name="android:textColor">@color/maintab_item_textcolor</item>
+        <item name="android:textSize">@dimen/maintab_item_textsize</item>
+		<item name="android:background">@drawable/maintab_item_bg_selector</item>
+    </style>
+</resources>

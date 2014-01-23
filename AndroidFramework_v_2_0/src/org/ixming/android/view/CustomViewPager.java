@@ -10,7 +10,8 @@ import android.util.AttributeSet;
 
 public class CustomViewPager extends ViewPager {
 
-	// 由于ViewPager的生命周期理论上是长于OnPageChangeListener的，如果存在需要被系统回收的OnPageChangeListener，此处不必再持有它
+	// 由于ViewPager的生命周期理论上是长于OnPageChangeListener的，
+	// 如果存在需要被系统回收的OnPageChangeListener，此处不必再持有它
 	private final HashSet<WeakReference<OnPageChangeListener>> mListenerSet
 		= new HashSet<WeakReference<OnPageChangeListener>>();
 	public CustomViewPager(Context context) {
