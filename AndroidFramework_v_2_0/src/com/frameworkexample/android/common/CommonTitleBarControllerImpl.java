@@ -28,7 +28,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 	
 	private void checkRootView() {
-		if (null == mRootView) {
+		if (!mHasCommonTitleBar) {
 			throw new RuntimeException("there no title bar in the content view!");
 		}
 	}
@@ -69,12 +69,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 
 	@Override
 	public CommonTitleBarControllerImpl setText(Position pos, int textRes) {
-		TextView tv = getView(pos);
-		showView(tv);
-		removeBackground(tv);
-		removeSideDrawables(tv);
-		tv.setText(textRes);
-		return this;
+		return setText(pos, getString(textRes));
 	}
 
 	@Override
@@ -111,12 +106,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	@Override
 	public CommonTitleBarControllerImpl setTextAndIcon(Position pos, int textRes,
 			Drawable left, Drawable top, Drawable right, Drawable bottom) {
-		TextView tv = getView(pos);
-		showView(tv);
-		removeBackground(tv);
-		tv.setText(textRes);
-		tv.setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
-		return this;
+		return setTextAndIcon(pos, getString(textRes), left, top, right, bottom);
 	}
 	
 	@Override
@@ -133,37 +123,9 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	@Override
 	public CommonTitleBarControllerImpl setTextAndIcon(Position pos, int textRes,
 			int left, int top, int right, int bottom) {
-		TextView tv = getView(pos);
-		showView(tv);
-		removeBackground(tv);
-		tv.setText(textRes);
-		tv.setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom);
-		return this;
+		return setTextAndIcon(pos, getString(textRes), left, top, right, bottom);
 	}
 	
-
-	@Override
-	public CommonTitleBarController setTextAndBackground(Position pos,
-			int textRes, int bg) {
-		TextView tv = getView(pos);
-		showView(tv);
-		removeSideDrawables(tv);
-		tv.setText(textRes);
-		tv.setBackgroundResource(bg);
-		return this;
-	}
-
-	@Override
-	public CommonTitleBarController setTextAndBackground(Position pos,
-			int textRes, Drawable bg) {
-		TextView tv = getView(pos);
-		showView(tv);
-		removeSideDrawables(tv);
-		tv.setText(textRes);
-		tv.setBackgroundDrawable(bg);
-		return this;
-	}
-
 	@Override
 	public CommonTitleBarController setTextAndBackground(Position pos,
 			String text, int bg) {
@@ -186,6 +148,18 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 		return this;
 	}
 
+	@Override
+	public CommonTitleBarController setTextAndBackground(Position pos,
+			int textRes, int bg) {
+		return setTextAndBackground(pos, getString(textRes), bg);
+	}
+
+	@Override
+	public CommonTitleBarController setTextAndBackground(Position pos,
+			int textRes, Drawable bg) {
+		return setTextAndBackground(pos, getString(textRes), bg);
+	}
+	
 	@Override
 	public TextView getView(Position pos) {
 		checkRootView();
@@ -261,6 +235,11 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 		if (removeContent) {
 			clearContent(tv);
 		}
+	}
+	
+	private String getString(int resId) {
+		checkRootView();
+		return mRootView.getResources().getString(resId);
 	}
 	
 	private void clearContent(TextView tv) {

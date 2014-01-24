@@ -74,8 +74,9 @@
         <item name="android:ellipsize">end</item>
     </style>
     <style name="TitleBar.Text.Sides">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:gravity">left|center_vertical</item>
         <item name="android:textSize">@dimen/titlebar_sides_textsize</item>
         <item name="android:textColor">@color/titlebar_sides_textcolor</item>
         <item name="android:drawablePadding">@dimen/titlebar_sides_drawable_padding</item>
@@ -87,20 +88,14 @@
     </style>
     <style name="TitleBar.Text.Sides.Left">
         <item name="android:id">@id/common_titlebar_left</item>
-        <item name="android:layout_width">@dimen/titlebar_left_width</item>
-        <item name="android:layout_height">@dimen/titlebar_left_height</item>
-        <item name="android:maxWidth">@dimen/titlebar_left_width</item>
-        <item name="android:maxHeight">@dimen/titlebar_left_height</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_marginLeft">@dimen/titlebar_side_margin</item>
+        <item name="android:gravity">left|center_vertical</item>
     </style>
     <style name="TitleBar.Text.Sides.Right">
         <item name="android:id">@id/common_titlebar_right</item>
-        <item name="android:layout_width">@dimen/titlebar_right_width</item>
-        <item name="android:layout_height">@dimen/titlebar_right_height</item>
-        <item name="android:maxWidth">@dimen/titlebar_right_width</item>
-        <item name="android:maxHeight">@dimen/titlebar_right_height</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginRight">@dimen/titlebar_side_margin</item>
+        <item name="android:gravity">right|center_vertical</item>
     </style>
 </resources>

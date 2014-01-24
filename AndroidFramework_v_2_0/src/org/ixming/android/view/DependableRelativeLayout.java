@@ -80,6 +80,7 @@ public class DependableRelativeLayout extends RelativeLayout {
 		if (mode >= DEPENDON_START && mode <= DEPENDON_END) {
 			if (mode != mDependOnMode) {
 				mDependOnMode = mode;
+				requestLayout();
 				postInvalidate();
 			}
 		}

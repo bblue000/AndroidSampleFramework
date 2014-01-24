@@ -42,4 +42,8 @@ public class ViewUtils {
 		return (0x1 << 30) - 1;
 	}
 	
+	public static int maxHeightOfView() {
+		return (0x1 << 30) - 1;
+	}
+	
 }

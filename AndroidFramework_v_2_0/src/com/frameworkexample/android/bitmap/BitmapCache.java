@@ -12,11 +12,11 @@ public class BitmapCache {
 	private static final IBitmapDownloader mDefBitmapDownloader = null;
 	
 	// 应用中使用的Bitmap配置
-	private static final Config mDefConfig = Config.RGB_565;
+	private static final Config DEF_CONFIG = Config.RGB_565;
 	// 加载图片时，提供的默认条件
 	private static final Options newDefaultLoadOptions() {
 		Options op = new Options();
-		op.inPreferredConfig = mDefConfig;
+		op.inPreferredConfig = DEF_CONFIG;
 		op.inPurgeable = true;
 		op.inInputShareable = true;
 		return op;
@@ -26,14 +26,8 @@ public class BitmapCache {
 		return MD5.digest2Str(url);
 	}
 	
-//	public static Bitmap fromResource(Context context, int res) {
-//	}
-//	
-//	public static Bitmap fromAsset(Context context, int res) {
-//		
-//	}
-//	
-//	public static Bitmap fromUrl(Context context, String url) {
-//		
+//	public Bitmap getBitmap(Context context, String url) {
+//		String fileName = transferFileName(url);
+//		String filePath = "" + fileName;
 //	}
 }
