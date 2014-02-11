@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 /**
  * 这个CommonTitleBarController是Android应用中较为普遍使用的，
- * 顶部分为三栏，三栏都是只有文本或者图片。
+ * 顶部分为三栏，三栏都是只有文本或者图片，或者文本加图片。
  * <p/>
  * 如果顶部的操作过于复杂多样，可以考虑使用Android的ActionBar。
  * @author Yin Yong

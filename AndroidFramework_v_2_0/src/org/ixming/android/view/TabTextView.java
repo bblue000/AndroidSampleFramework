@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 /**
  * used as a tab indicator.
  * <p/>
- * 这样的TextView在使用时，它的Drawable会根据TextView的大小而缩放。
+ * 这样的TextView在使用时，如果TextView指定了大小，它的Drawable会根据TextView的大小而缩放。
  * <p/>
  * 且Drawable的宽高是相等的
  * @author Yin Yong
