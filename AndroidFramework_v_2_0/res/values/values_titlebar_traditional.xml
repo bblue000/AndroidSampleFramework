@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	all values—— ids, dimens, colors, drawables, styles, i.e.
+	for traditional title bar
+ -->
+<resources>
+    <!-- 第一种形式，即中间显示当前页，两边各有一个预留控制位 -->
+    <item type="id" name="tradi_titlebar_center"/>
+    <item type="id" name="tradi_titlebar_left"/>
+    <item type="id" name="tradi_titlebar_right"/>
+    
+    <!-- dimens for traditional title bar -->
+    <dimen name="tradi_titlebar_side_margin">5dp</dimen>
+    <dimen name="tradi_titlebar_center_hmargin">5dp</dimen>
+    
+    <dimen name="tradi_titlebar_center_textsize">18sp</dimen>
+    <dimen name="tradi_titlebar_sides_textsize">14sp</dimen>
+    <dimen name="tradi_titlebar_drawable_padding">5dp</dimen>
+    
+    <!-- colors for traditional title bar -->
+    
+    <!-- drawables for traditional title bar -->
+    
+    
+    <!-- title bar 相关的style -->
+    <style name="TitleBar.Traditional"/>
+    <style name="TitleBar.Traditional.Container" parent="TitleBar.Container">
+    </style>
+    <style name="TitleBar.Traditional.Text">
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="TitleBar.Traditional.Text.Center">
+        <item name="android:textSize">@dimen/tradi_titlebar_center_textsize</item>
+        <item name="android:textColor">@color/tradi_titlebar_center_textcolor</item>
+    </style>
+    <style name="TitleBar.Traditional.Text.Sides">
+        <item name="android:textSize">@dimen/tradi_titlebar_sides_textsize</item>
+        <item name="android:textColor">@color/tradi_titlebar_sides_textcolor</item>
+    </style>
+</resources>
