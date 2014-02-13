@@ -10,8 +10,8 @@
     <item type="id" name="tradi_titlebar_right"/>
     
     <!-- dimens for traditional title bar -->
-    <dimen name="tradi_titlebar_side_margin">5dp</dimen>
-    <dimen name="tradi_titlebar_center_hmargin">5dp</dimen>
+    <dimen name="tradi_titlebar_side_margin">10dp</dimen>
+    <dimen name="tradi_titlebar_center_hmargin">10dp</dimen>
     
     <dimen name="tradi_titlebar_center_textsize">18sp</dimen>
     <dimen name="tradi_titlebar_sides_textsize">14sp</dimen>

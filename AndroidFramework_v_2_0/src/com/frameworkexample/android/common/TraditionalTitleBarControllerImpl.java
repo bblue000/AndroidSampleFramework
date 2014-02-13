@@ -21,7 +21,7 @@ class TraditionalTitleBarControllerImpl extends TraditionalTitleBarController {
 	private TextView mCenterView;
 	private TextView mRightView;
 	public TraditionalTitleBarControllerImpl(View wrappedView) {
-		InjectorUtils.buildAsSingleton(new InjectConfigure().setToAll(false).injectViews(true))
+		InjectorUtils.instanceBuildFrom(new InjectConfigure().setToAll(false).injectViews(true))
 			.inject(this, wrappedView);
 		mHasCommonTitleBar = (null != mRootView);
 		checkRootView();

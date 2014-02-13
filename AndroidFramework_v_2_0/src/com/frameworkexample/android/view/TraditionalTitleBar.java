@@ -1,6 +1,7 @@
 package com.frameworkexample.android.view;
 
 import org.ixming.android.view.OneSideIconTextView;
+import org.ixming.android.view.attrs.ViewProperties;
 
 import android.content.Context;
 import android.text.TextUtils.TruncateAt;
@@ -36,7 +37,7 @@ class TraditionalTitleBarConfig {
 	}
 	
 	public void initCenterView(OneSideIconTextView centerView) {
-		centerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT));
+		centerView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		centerView.setGravity(Gravity.CENTER);
 		
 		centerView.setSingleLine(true);
@@ -48,7 +49,7 @@ class TraditionalTitleBarConfig {
 	}
 	
 	public void initLeftView(OneSideIconTextView leftView) {
-		leftView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT));
+		leftView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		leftView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 		
 		leftView.setSingleLine(true);
@@ -59,7 +60,7 @@ class TraditionalTitleBarConfig {
 	}
 	
 	public void initRightView(OneSideIconTextView rightView) {
-		rightView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT));
+		rightView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		rightView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
 		
 		rightView.setSingleLine(true);
@@ -167,29 +168,42 @@ public class TraditionalTitleBar extends ViewGroup {
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		//TODO 高度方面 ，采取竖直居中
+		
 		int left = getPaddingLeft();
 		int top = getPaddingTop();
 		int right = Math.max(0, getMeasuredWidth() - getPaddingRight());
-		int bottom = Math.max(0, getMeasuredHeight() - getPaddingBottom());
+		//int bottom = Math.max(0, getMeasuredHeight() - getPaddingBottom());
 		
+		
+		int leftViewTop = top + ViewProperties.getAsInt(getMeasuredHeight() / 2F
+				- mLeftView.getMeasuredHeight() / 2F);
+		int leftViewBottom = leftViewTop + mLeftView.getMeasuredHeight();
 		int leftViewLeft = left + mConfig.getSideViewSideSpace();
 		int leftViewRight = Math.min(right - mConfig.getSideViewSideSpace(),
 				left + mConfig.getSideViewSideSpace() + mLeftView.getMeasuredWidth());
-		mLeftView.layout(leftViewLeft, top, leftViewRight, bottom);
+		mLeftView.layout(leftViewLeft, leftViewTop, leftViewRight, leftViewBottom);
 		
 		
+		
+		int rightViewTop = top + ViewProperties.getAsInt(getMeasuredHeight() / 2F
+				- mRightView.getMeasuredHeight() / 2F);
+		int rightViewBottom = rightViewTop + mRightView.getMeasuredHeight();
 		int rightViewRight = Math.max(0, right - mConfig.getSideViewSideSpace());
 		int rightViewLeft = Math.max(left + mConfig.getSideViewSideSpace(),
 				rightViewRight - mRightView.getMeasuredWidth());
-		mRightView.layout(rightViewLeft, top, rightViewRight, bottom);
+		mRightView.layout(rightViewLeft, rightViewTop, rightViewRight, rightViewBottom);
 		
 		
 		//TODO center view
+		int centerViewTop = top + ViewProperties.getAsInt(getMeasuredHeight() / 2F
+				- mCenterView.getMeasuredHeight() / 2F);
+		int centerViewBottom = centerViewTop + mCenterView.getMeasuredHeight();
 		int sideMaxWidth = Math.max(mLeftView.getWidth(), mRightView.getWidth());
 		int centerViewLeft = leftViewLeft + sideMaxWidth + mConfig.getCenterViewSidesSpace();
 		int centerViewRight = Math.max(centerViewLeft,
 				Math.max(0, rightViewLeft - mConfig.getCenterViewSidesSpace()));
-		mCenterView.layout(centerViewLeft, top, centerViewRight, bottom);
+		mCenterView.layout(centerViewLeft, centerViewTop, centerViewRight, centerViewBottom);
 	}
 	
 	public TextView getCenterView() {
