@@ -1,30 +1,34 @@
 package com.frameworkexample.android.common;
 
+import org.ixming.android.inject.InjectConfigure;
 import org.ixming.android.inject.InjectorUtils;
 import org.ixming.android.inject.annotation.ViewInject;
 import org.ixming.android.view.ViewUtils;
-
-import com.frameworkexample.android.R;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
-class CommonTitleBarControllerImpl extends CommonTitleBarController {
+import com.frameworkexample.android.R;
+import com.frameworkexample.android.view.TraditionalTitleBar;
+
+class TraditionalTitleBarControllerImpl extends TraditionalTitleBarController {
 
 	private boolean mHasCommonTitleBar;
-	@ViewInject(id=R.id.common_titlebar)
-	private View mRootView;
-	@ViewInject(id=R.id.common_titlebar_left, parentId=R.id.common_titlebar)
+	@ViewInject(id = R.id.common_titlebar)
+	private TraditionalTitleBar mRootView;
 	private TextView mLeftView;
-	@ViewInject(id=R.id.common_titlebar_center, parentId=R.id.common_titlebar)
 	private TextView mCenterView;
-	@ViewInject(id=R.id.common_titlebar_right, parentId=R.id.common_titlebar)
 	private TextView mRightView;
-	public CommonTitleBarControllerImpl(View wrappedView) {
-		InjectorUtils.defaultInstance().inject(this, wrappedView);
+	public TraditionalTitleBarControllerImpl(View wrappedView) {
+		InjectorUtils.instanceBuildFrom(new InjectConfigure().setToAll(false).injectViews(true))
+			.inject(this, wrappedView);
 		mHasCommonTitleBar = (null != mRootView);
 		checkRootView();
+		
+		mLeftView = mRootView.getLeftView();
+		mCenterView = mRootView.getCenterView();
+		mRightView = mRootView.getRightView();
 	}
 	
 	private void checkRootView() {
@@ -58,7 +62,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl setText(Position pos, String text) {
+	public TraditionalTitleBarControllerImpl setText(Position pos, String text) {
 		TextView tv = getView(pos);
 		showView(tv);
 		removeBackground(tv);
@@ -68,12 +72,12 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl setText(Position pos, int textRes) {
+	public TraditionalTitleBarControllerImpl setText(Position pos, int textRes) {
 		return setText(pos, getString(textRes));
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl setIcon(Position pos, Drawable drawable) {
+	public TraditionalTitleBarControllerImpl setIcon(Position pos, Drawable drawable) {
 		TextView tv = getView(pos);
 		showView(tv);
 		removeText(tv);
@@ -83,7 +87,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl setIcon(Position pos, int imageRes) {
+	public TraditionalTitleBarControllerImpl setIcon(Position pos, int imageRes) {
 		TextView tv = getView(pos);
 		showView(tv);
 		removeText(tv);
@@ -93,7 +97,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl setTextAndIcon(Position pos, String text,
+	public TraditionalTitleBarControllerImpl setTextAndIcon(Position pos, String text,
 			Drawable left, Drawable top, Drawable right, Drawable bottom) {
 		TextView tv = getView(pos);
 		showView(tv);
@@ -104,13 +108,13 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl setTextAndIcon(Position pos, int textRes,
+	public TraditionalTitleBarControllerImpl setTextAndIcon(Position pos, int textRes,
 			Drawable left, Drawable top, Drawable right, Drawable bottom) {
 		return setTextAndIcon(pos, getString(textRes), left, top, right, bottom);
 	}
 	
 	@Override
-	public CommonTitleBarControllerImpl setTextAndIcon(Position pos, String text,
+	public TraditionalTitleBarControllerImpl setTextAndIcon(Position pos, String text,
 			int left, int top, int right, int bottom) {
 		TextView tv = getView(pos);
 		showView(tv);
@@ -121,13 +125,13 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl setTextAndIcon(Position pos, int textRes,
+	public TraditionalTitleBarControllerImpl setTextAndIcon(Position pos, int textRes,
 			int left, int top, int right, int bottom) {
 		return setTextAndIcon(pos, getString(textRes), left, top, right, bottom);
 	}
 	
 	@Override
-	public CommonTitleBarController setTextAndBackground(Position pos,
+	public TraditionalTitleBarController setTextAndBackground(Position pos,
 			String text, int bg) {
 		TextView tv = getView(pos);
 		showView(tv);
@@ -138,7 +142,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarController setTextAndBackground(Position pos,
+	public TraditionalTitleBarController setTextAndBackground(Position pos,
 			String text, Drawable bg) {
 		TextView tv = getView(pos);
 		showView(tv);
@@ -149,13 +153,13 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarController setTextAndBackground(Position pos,
+	public TraditionalTitleBarController setTextAndBackground(Position pos,
 			int textRes, int bg) {
 		return setTextAndBackground(pos, getString(textRes), bg);
 	}
 
 	@Override
-	public CommonTitleBarController setTextAndBackground(Position pos,
+	public TraditionalTitleBarController setTextAndBackground(Position pos,
 			int textRes, Drawable bg) {
 		return setTextAndBackground(pos, getString(textRes), bg);
 	}
@@ -176,35 +180,35 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl getCommonTitleBarController() {
+	public TraditionalTitleBarControllerImpl getCommonTitleBarController() {
 		return this;
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl showView(Position pos) {
+	public TraditionalTitleBarControllerImpl showView(Position pos) {
 		showView(getView(pos));
 		return this;
 	}
 	
 	@Override
-	public CommonTitleBarController hideView(Position pos) {
+	public TraditionalTitleBarController hideView(Position pos) {
 		return hideView(pos, true);
 	}
 
 	@Override
-	public CommonTitleBarControllerImpl hideView(Position pos, boolean removeContent) {
+	public TraditionalTitleBarControllerImpl hideView(Position pos, boolean removeContent) {
 		TextView tv = getView(pos);
 		hideView(tv, removeContent);
 		return this;
 	}
 
 	@Override
-	public CommonTitleBarController hideAll() {
+	public TraditionalTitleBarController hideAll() {
 		return hideAll(true);
 	}
 	
 	@Override
-	public CommonTitleBarController hideAll(boolean removeContent) {
+	public TraditionalTitleBarController hideAll(boolean removeContent) {
 		hideView(mLeftView, removeContent);
 		hideView(mCenterView, removeContent);
 		hideView(mRightView, removeContent);
@@ -212,7 +216,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 	
 	@Override
-	public CommonTitleBarController bindClickListener(Position pos,
+	public TraditionalTitleBarController bindClickListener(Position pos,
 			View.OnClickListener listener) {
 		TextView tv = getView(pos);
 		tv.setOnClickListener(listener);
@@ -220,7 +224,7 @@ class CommonTitleBarControllerImpl extends CommonTitleBarController {
 	}
 
 	@Override
-	public CommonTitleBarController removeClickListener(Position pos) {
+	public TraditionalTitleBarController removeClickListener(Position pos) {
 		TextView tv = getView(pos);
 		tv.setOnClickListener(null);
 		return this;

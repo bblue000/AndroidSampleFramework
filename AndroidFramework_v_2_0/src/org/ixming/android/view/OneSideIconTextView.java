@@ -13,7 +13,7 @@ import android.widget.TextView;
 /**
  * used as a tab indicator.
  * <p/>
- * 这样的TextView在使用时，它的Drawable会根据TextView的大小而缩放。
+ * 这样的TextView在使用时，如果TextView指定了大小，它的Drawable会根据TextView的大小而缩放。
  * <p/>
  * @author Yin Yong
  */
