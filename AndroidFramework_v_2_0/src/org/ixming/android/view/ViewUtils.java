@@ -18,6 +18,25 @@ public class ViewUtils {
 		}
 	}
 	
+	public static boolean isVisibilityEqual(View view, int visibility) {
+		if (null == view) {
+			return false;
+		}
+		return view.getVisibility() == visibility;
+	}
+	
+	public static boolean isVisible(View view) {
+		return isVisibilityEqual(view, View.VISIBLE);
+	}
+	
+	public static boolean isInvisible(View view) {
+		return isVisibilityEqual(view, View.INVISIBLE);
+	}
+	
+	public static boolean isGone(View view) {
+		return isVisibilityEqual(view, View.GONE);
+	}
+	
 	public static void setViewVisible(View view) {
 		setViewVisibility(view, View.VISIBLE);
 	}

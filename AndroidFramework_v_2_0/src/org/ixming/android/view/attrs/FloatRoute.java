@@ -44,6 +44,22 @@ public final class FloatRoute {
 		currentY = y;
 	}
 	
+	public float getDownX() {
+		return downX;
+	}
+	
+	public float getDownY() {
+		return downY;
+	}
+	
+	public float getLatestX() {
+		return currentX;
+	}
+	
+	public float getLatestY() {
+		return currentY;
+	}
+	
 	/**
 	 * 一般在setCurrent之后调用，获取相邻两个setCurrent或者setCurrent和setDown之间的变化值
 	 * @return x轴的变化值

@@ -202,7 +202,7 @@ public class TraditionalTitleBar extends ViewGroup {
 		int sideMaxWidth = Math.max(mLeftView.getWidth(), mRightView.getWidth());
 		int centerViewLeft = leftViewLeft + sideMaxWidth + mConfig.getCenterViewSidesSpace();
 		int centerViewRight = Math.max(centerViewLeft,
-				Math.max(0, rightViewLeft - mConfig.getCenterViewSidesSpace()));
+				Math.max(0, rightViewRight - sideMaxWidth - mConfig.getCenterViewSidesSpace()));
 		mCenterView.layout(centerViewLeft, centerViewTop, centerViewRight, centerViewBottom);
 	}
 	
