@@ -34,4 +34,22 @@ public class ContentBasedGridView extends GridView {
 		super.onMeasure(widthMeasureSpec, heightSpec);
 	}
 	
+	@Override
+	public int computeVerticalScrollExtent() {
+		int computeVerticalScrollExtent = super.computeVerticalScrollExtent();
+		return computeVerticalScrollExtent;
+	}
+	
+	@Override
+	public int computeVerticalScrollOffset() {
+		int computeVerticalScrollOffset = super.computeVerticalScrollOffset();
+		return computeVerticalScrollOffset;
+	}
+	
+	@Override
+	public int computeVerticalScrollRange() {
+		int computeVerticalScrollRange = super.computeVerticalScrollRange();
+		return computeVerticalScrollRange;
+	}
+	
 }

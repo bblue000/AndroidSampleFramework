@@ -3,6 +3,16 @@ package org.ixming.android.view.attrs;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+/**
+ * This is a simple utility Class;
+ * <br/>
+ * 
+ * just like {@link android.graphics.Rect},
+ * 
+ * but values of left, top, right, bottom  are float.
+ * 
+ * @author Yin Yong
+ */
 public final class FloatRect {
 	public float left;
 	public float top;
@@ -122,7 +132,7 @@ public final class FloatRect {
     
     @Override
     public String toString() {
-        return "InnerRect(" + left + ", " + top + ", "
+        return "FloatRect(" + left + ", " + top + ", "
                       + right + ", " + bottom + ")";
     }
     

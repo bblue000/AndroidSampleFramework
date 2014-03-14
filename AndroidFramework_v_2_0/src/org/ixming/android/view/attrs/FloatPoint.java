@@ -2,6 +2,15 @@ package org.ixming.android.view.attrs;
 
 import android.graphics.Point;
 
+/**
+ * This is a simple utility Class;
+ * <br/>
+ * 
+ * just like {@link android.graphics.Point},
+ * but values of x, y  are float.
+ * 
+ * @author Yin Yong
+ */
 public final class FloatPoint {
 	public float x;
 	public float y;
@@ -66,7 +75,11 @@ public final class FloatPoint {
     @Override public boolean equals(Object o) {
         if (o instanceof FloatPoint) {
         	FloatPoint p = (FloatPoint) o;
-            return this.x == p.x && this.y == p.y;
+            return equals(p.x, p.y);
+        }
+        if (o instanceof Point) {
+        	Point p = (Point) o;
+            return equals(p.x, p.y);
         }
         return false;
     }
@@ -76,7 +89,7 @@ public final class FloatPoint {
     }
 
     @Override public String toString() {
-        return "InnerPoint(" + x + ", " + y+ ")";
+        return "FloatPoint(" + x + ", " + y+ ")";
     }
 
 }

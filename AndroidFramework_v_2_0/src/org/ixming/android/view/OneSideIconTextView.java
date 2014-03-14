@@ -50,10 +50,10 @@ public class OneSideIconTextView extends TextView {
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
 		if (checkCompoundDrawables()) {
 			return ;
 		}
-		super.onDraw(canvas);
 	}
 	
 	@Override

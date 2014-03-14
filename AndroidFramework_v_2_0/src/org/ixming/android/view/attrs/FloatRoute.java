@@ -52,6 +52,14 @@ public final class FloatRoute {
 		return downY;
 	}
 	
+	public float getLastX() {
+		return lastX;
+	}
+	
+	public float getLastY() {
+		return lastY;
+	}
+	
 	public float getLatestX() {
 		return currentX;
 	}
@@ -91,4 +99,12 @@ public final class FloatRoute {
 	public float getTotalDeltaY() {
 		return currentY - downY;
 	}
+
+	@Override
+	public String toString() {
+		return "FloatRoute [downX=" + downX + ", downY=" + downY + ", lastX="
+				+ lastX + ", lastY=" + lastY + ", currentX=" + currentX
+				+ ", currentY=" + currentY + "]";
+	}
+	
 }
