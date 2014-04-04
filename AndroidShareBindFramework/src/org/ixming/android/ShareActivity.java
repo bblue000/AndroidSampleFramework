@@ -1,10 +1,8 @@
 package org.ixming.android;
 
-import org.ixming.android.sharebind.R;
 import org.ixming.android.sharebind.ShareBindBean;
 import org.ixming.android.sharebind.ShareConstants;
 import org.ixming.android.sharebind.ShareDispatcher;
-import org.ixming.android.sharebind.R.drawable;
 
 import android.app.Activity;
 import android.content.Context;

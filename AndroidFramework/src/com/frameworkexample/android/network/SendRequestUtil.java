@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.frameworkexample.android.network.listener.OnLoadListener;
+import com.frameworkexample.android.utils.LogUtils;
 import com.frameworkexample.android.utils.MD5;
 import com.frameworkexample.android.utils.Utils;
 
@@ -79,5 +80,26 @@ public class SendRequestUtil
             loadHelper.stopNet();
             Log.w(TAG, " loadHelper.stopNet(); ");
         }
+    }
+    
+    // 测试回调的执行
+    public static void sendTest(Context context, Handler handler, OnLoadListener listener) {
+        final ReqBean bean = new ReqBean();
+        bean.setContext(context);
+        bean.setLister(listener);
+    	new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(5000);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				LogUtils.d("yytest", "sendTest");
+				OnLoadListener listener = bean.getLister();
+				listener.onSuccess(null, bean);
+			}
+		}).start();
     }
 }

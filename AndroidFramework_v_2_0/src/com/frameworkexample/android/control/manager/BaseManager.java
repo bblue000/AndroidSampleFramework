@@ -1,8 +1,10 @@
 package com.frameworkexample.android.control.manager;
 
+import org.ixming.android.utils.AndroidUtils;
 import org.ixming.android.utils.ToastUtils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -16,37 +18,90 @@ import android.text.TextUtils;
  * @version 1.0
  */
 public abstract class BaseManager {
-	private Context appContext;
-	private Handler handler;
+	private Activity mActivity;
+	private Context mAppContext;
+	private Handler mHandler;
 
-	public BaseManager(Context context, Handler handler) {
+	public BaseManager(Activity context, Handler handler) {
 		if (null == context) {
 			throw new NullPointerException("context is null");
 		}
-		if (context instanceof Activity) {
-			this.appContext = context.getApplicationContext();
-		} else {
-			this.appContext = context;
-		}
-		this.handler = handler;
+		this.mActivity = context;
+		this.mAppContext = context.getApplicationContext();
+		this.mHandler = handler;
 	}
 
+	protected final Activity getActivity() {
+		return this.mActivity;
+	}
+	
 	protected final Context getApplicationContext() {
-		return this.appContext;
+		return this.mAppContext;
 	}
 
 	protected final Handler getHandler() {
-		return handler;
+		return mHandler;
 	}
 
+	// >>>>>>>>>>>>>>>>>>>>>>
+	// convenient for show progress bar
+	private ProgressDialog progressDialog;
+	private final HideProgressDialogRun mHideProgressDialogRun = new HideProgressDialogRun();
+	
+	private class HideProgressDialogRun implements Runnable {
+		private boolean mShouldFinalize;
+		public void setShoundFinalize(boolean shoundFinalize) {
+			mShouldFinalize = shoundFinalize;
+		}
+		
+		@Override
+		public void run() {
+			if (null != progressDialog && progressDialog.isShowing()) {
+				progressDialog.dismiss();
+			}
+			if (mShouldFinalize) {
+				progressDialog = null;
+			}
+		}
+		
+	}
+	/**
+     * 获取加载框
+     */
+    public void showLoadingDialog(String msg) {
+    	if (null == progressDialog) {
+    		progressDialog = new ProgressDialog(getActivity());
+    	}
+    	if (msg == null || msg.trim().equalsIgnoreCase("")) {
+    		progressDialog.setMessage(null);
+        }
+		progressDialog.setMessage(msg);
+		if (!progressDialog.isShowing()) {
+			progressDialog.show();
+		}
+        // pd.setCancelable(false);
+    }
+    
+    public void hideLoadingDialog(boolean shoundFinalize) {
+    	mHideProgressDialogRun.setShoundFinalize(shoundFinalize);
+    	if (AndroidUtils.isMainThread()) {
+    		mHideProgressDialogRun.run();
+    	} else {
+    		mHandler.post(mHideProgressDialogRun);
+    	}
+    }
+	
+	
+	// >>>>>>>>>>>>>>>>>>>>>>
+	// convenient for show toast
 	public final void toastShow(final String msg) {
 		if (TextUtils.isEmpty(msg)) {
 			return;
 		}
-		ToastUtils.showToast(appContext, handler, msg);
+		ToastUtils.showToast(mAppContext, mHandler, msg);
 	}
 
 	public final void toastShow(final int resId) {
-		toastShow(appContext.getString(resId));
+		toastShow(mAppContext.getString(resId));
 	}
 }

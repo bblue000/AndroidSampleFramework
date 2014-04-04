@@ -1,13 +1,13 @@
 package org.ixming.android;
 
-import org.ixming.android.sharebind.R;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
 public class MainActivity extends Activity {
 
+	// signature -- 547871c77547ed06a330374711608731
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
